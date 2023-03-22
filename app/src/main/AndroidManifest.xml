@@ -12,6 +12,9 @@
         android:theme="@style/Theme.MoneySaver"
         tools:targetApi="31">
         <activity
+            android:name=".ui.transaction_editor.TransactionEditorActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name">
