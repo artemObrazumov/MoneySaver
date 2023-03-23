@@ -4,4 +4,5 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="bills">Счета</string>
+    <string name="title_transactions">Операции</string>
 </resources>
