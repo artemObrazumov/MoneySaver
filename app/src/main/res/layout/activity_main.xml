@@ -40,7 +40,6 @@
         android:layout_gravity="bottom"
         app:fabCradleMargin="10dp"
         app:fabCradleRoundedCornerRadius="10dp"
-        app:fabCradleVerticalOffset="10dp"
         app:contentInsetEnd="0dp"
         app:contentInsetStart="0dp">
 
@@ -61,6 +60,8 @@
         android:contentDescription="@string/app_name"
         android:src="@drawable/ic_dashboard_black_24dp"
         android:transitionName="transition_fab"
+        android:backgroundTint="@color/purple_200"
+        app:tint="@color/white"
         app:layout_anchor="@id/bottomAppBar" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

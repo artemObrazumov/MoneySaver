@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.borsch_team.moneysaver.databinding.FragmentTransactionsBinding
 import com.borsch_team.moneysaver.ui.adapter.BillsAdapter
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 class TransactionsFragment : Fragment() {
 
@@ -24,8 +26,9 @@ class TransactionsFragment : Fragment() {
         viewModel = ViewModelProvider(this)[TransactionsViewModel::class.java]
         binding = FragmentTransactionsBinding.inflate(inflater, container, false)
         adapter = BillsAdapter(requireActivity())
-        binding.billsPager.setPageTransformer(MarginPageTransformer(80))
+        binding.billsPager.setPageTransformer(MarginPageTransformer(40))
         binding.billsPager.adapter = adapter
+        TabLayoutMediator(binding.tabDots, binding.billsPager, true) { _, _ -> }.attach()
         return binding.root
     }
 }
