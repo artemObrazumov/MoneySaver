@@ -21,4 +21,8 @@
     <style name="ShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
         <item name="cornerSize">50%</item>
     </style>
+    <style name="edittext" parent="">
+        <item name="android:background">@drawable/edittext_selector</item>
+        <item name="android:padding">12dp</item>
+    </style>
 </resources>
