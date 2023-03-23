@@ -10,4 +10,5 @@
     <string name="income">Доходы</string>
     <string name="name">Название</string>
     <string name="billType">Тип счёта</string>
+    <string name="title_transactions">Операции</string>
 </resources>
