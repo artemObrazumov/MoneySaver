@@ -33,8 +33,9 @@ class BillEditorActivity : AppCompatActivity() {
                 true
             }
             else -> {
+                finish()
                 onBackPressed()
-                super.onOptionsItemSelected(item);
+                super.onOptionsItemSelected(item)
             }
         }
     }
