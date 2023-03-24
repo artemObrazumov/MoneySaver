@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.bottomNavigationView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
+
         binding.fab.setOnClickListener {
             val intent = Intent(this, TransactionEditorActivity::class.java)
             startActivity(intent)

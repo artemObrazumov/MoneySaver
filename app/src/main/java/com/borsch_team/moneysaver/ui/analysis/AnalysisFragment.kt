@@ -1,4 +1,4 @@
-package com.borsch_team.moneysaver.ui.notifications
+package com.borsch_team.moneysaver.ui.analysis
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.borsch_team.moneysaver.databinding.FragmentNotificationsBinding
+import com.borsch_team.moneysaver.databinding.FragmentAnalysisBinding
 
-class NotificationsFragment : Fragment() {
+class AnalysisFragment : Fragment() {
 
-    private var _binding: FragmentNotificationsBinding? = null
+    private var _binding: FragmentAnalysisBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -23,9 +23,9 @@ class NotificationsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val notificationsViewModel =
-            ViewModelProvider(this).get(NotificationsViewModel::class.java)
+            ViewModelProvider(this)[AnalysisViewModel::class.java]
 
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
+        _binding = FragmentAnalysisBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textNotifications

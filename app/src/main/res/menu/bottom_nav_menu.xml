@@ -7,9 +7,9 @@
         android:title="@string/title_transactions" />
 
     <item
-        android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard" />
+        android:id="@+id/navigation_planned_bills"
+        android:icon="@drawable/baseline_calendar_month_24"
+        android:title="@string/title_planned_bills" />
 
     <item
         android:icon="@android:color/transparent"
@@ -17,13 +17,13 @@
         android:enabled="false"/>
 
     <item
-        android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/title_notifications" />
+        android:id="@+id/navigation_analysis"
+        android:icon="@drawable/baseline_analytics_24"
+        android:title="@string/title_analysis" />
 
     <item
         android:id="@+id/navigation_profile"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/title_notifications" />
+        android:icon="@drawable/baseline_account_circle_24"
+        android:title="@string/title_profile" />
 
 </menu>

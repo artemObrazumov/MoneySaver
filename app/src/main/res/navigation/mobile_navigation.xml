@@ -12,22 +12,22 @@
         tools:layout="@layout/fragment_transactions" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.borsch_team.moneysaver.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_planned_bills"
+        android:name="com.borsch_team.moneysaver.ui.planned_bills.PlannedBillsFragment"
+        android:label="@string/title_planned_bills"
+        tools:layout="@layout/fragment_planned_bills" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.borsch_team.moneysaver.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_analysis"
+        android:name="com.borsch_team.moneysaver.ui.analysis.AnalysisFragment"
+        android:label="@string/title_analysis"
+        tools:layout="@layout/fragment_analysis" />
 
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.borsch_team.moneysaver.ui.profile.ProfileFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
 
 
 </navigation>
