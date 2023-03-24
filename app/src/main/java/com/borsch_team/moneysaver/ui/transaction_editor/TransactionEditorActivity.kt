@@ -1,12 +1,9 @@
 package com.borsch_team.moneysaver.ui.transaction_editor
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ExperimentalGetImage
-import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.databinding.ActivityTransactionEditorBinding
 import com.borsch_team.moneysaver.ui.qr_scanner.QrScannerActivity
 

@@ -11,6 +11,7 @@
     <string name="name">Название</string>
     <string name="billType">Тип счёта</string>
     <string name="title_transactions">Операции</string>
+    <string name="balance">Баланс</string>
     <string name="title_planned_bills">Запланированные траты</string>
     <string name="title_analysis">Анализ расходов</string>
     <string name="title_profile">Профиль</string>

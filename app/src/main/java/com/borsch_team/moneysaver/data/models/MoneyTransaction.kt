@@ -5,14 +5,14 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Transaction(
+data class MoneyTransaction(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id") var id: Long?,
-    @ColumnInfo(name = "is_expenses") var is_expenses: Boolean?,
+    @ColumnInfo(name = "transactionId") var id: Long?,
+    @ColumnInfo(name = "isExpenses") var isExpenses: Boolean?,
     @ColumnInfo(name = "name") var name: String?,
     @ColumnInfo(name = "description") var description: String?,
     @ColumnInfo(name = "date") var date: Long?,
-    @ColumnInfo(name = "id_category") var id_category: Int?,
-    @ColumnInfo(name = "id_bill") var id_bill: Int?,
+    @ColumnInfo(name = "idCategory") var idCategory: Int?,
+    @ColumnInfo(name = "idBill") var idBill: Int?,
     @ColumnInfo(name = "money") var money: Float?
 )
