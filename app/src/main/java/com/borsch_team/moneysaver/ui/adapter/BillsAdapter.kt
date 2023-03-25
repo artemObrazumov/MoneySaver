@@ -1,22 +1,107 @@
 package com.borsch_team.moneysaver.ui.adapter
 
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.borsch_team.moneysaver.ui.bill_slide.BillLastSlideFragment
-import com.borsch_team.moneysaver.ui.bill_slide.BillSlideFragment
+import android.annotation.SuppressLint
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.borsch_team.moneysaver.Constants
+import com.borsch_team.moneysaver.R
+import com.borsch_team.moneysaver.data.models.Bill
+import com.borsch_team.moneysaver.databinding.BillItemBinding
+import com.borsch_team.moneysaver.databinding.BillLastItemBinding
 
 class BillsAdapter(
-    activity: FragmentActivity,
+    private var bills: List<Bill>,
+    private val onBillClicked: (bill: Bill) -> Unit,
     private val onNewBillClicked: () -> Unit
-): FragmentStateAdapter(activity) {
-    override fun getItemCount(): Int = 1
-    override fun createFragment(position: Int): Fragment =
-        if (position < 0) {
-            BillSlideFragment()
-        } else {
-            BillLastSlideFragment {
-                onNewBillClicked()
+): RecyclerView.Adapter<ViewHolder>() {
+
+    class BillViewHolder (
+        private val binding: BillItemBinding
+    ): ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
+        fun bind(
+            bill: Bill,
+            onBillClciked: (bill: Bill) -> Unit
+        ) {
+            binding.balance.text = "${bill.balance.toString()} Р"
+            binding.title.text = bill.name
+            when (bill.idType) {
+                Constants.BILL_TYPE_CARD -> {
+                    binding.root.background = ContextCompat
+                        .getDrawable(binding.root.context, R.drawable.bill_background_card)
+                    binding.icon.setImageDrawable(ContextCompat
+                        .getDrawable(binding.root.context, R.drawable.ic_card))
+                }
+                Constants.BILL_TYPE_BANKNOTES -> {
+                    binding.root.background = ContextCompat
+                        .getDrawable(binding.root.context, R.drawable.bill_background_banknote)
+                    binding.icon.setImageDrawable(ContextCompat
+                        .getDrawable(binding.root.context, R.drawable.ic_banknotes))
+                }
+            }
+            binding.root.setOnClickListener {
+                onBillClciked(bill)
             }
         }
+    }
+
+    class NewBillViewHolder (
+        private val binding: BillLastItemBinding
+    ): ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
+        fun bind(
+            onNewBillClciked: () -> Unit
+        ) {
+            binding.root.setOnClickListener {
+                onNewBillClciked()
+            }
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int =
+        if (position < itemCount-1) { 0 }
+        else { 1 }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return when (viewType) {
+            0 -> {
+                BillViewHolder(
+                    BillItemBinding.inflate(LayoutInflater.from(parent.context),
+                    parent, false
+                ))
+            }
+            else -> {
+                NewBillViewHolder(
+                    BillLastItemBinding.inflate(LayoutInflater.from(parent.context),
+                        parent, false
+                    ))
+            }
+        }
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        when (getItemViewType(position)) {
+            0 -> {
+                (holder as BillViewHolder).bind(bills[position]) { bill ->
+                    onBillClicked(bill)
+                }
+            }
+            1 -> {
+                (holder as NewBillViewHolder).bind {
+                    onNewBillClicked()
+                }
+            }
+        }
+    }
+
+    override fun getItemCount(): Int = bills.size+1
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateDataset(bills: List<Bill>) {
+        this.bills = bills
+        notifyDataSetChanged()
+    }
 }

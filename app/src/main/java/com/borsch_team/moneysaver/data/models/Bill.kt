@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class Bill(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "billId") var id: Long?,
-    @ColumnInfo(name = "idType")var id_type: Int?,
+    @ColumnInfo(name = "idType")var idType: Int?,
     @ColumnInfo(name = "name") var name: String?,
     @ColumnInfo(name = "balance") var balance: Float?,
 )

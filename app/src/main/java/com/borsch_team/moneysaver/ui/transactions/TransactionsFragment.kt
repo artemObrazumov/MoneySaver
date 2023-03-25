@@ -11,6 +11,7 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.databinding.FragmentTransactionsBinding
 import com.borsch_team.moneysaver.ui.adapter.BillsAdapter
+import com.borsch_team.moneysaver.ui.bill_detail.BillDetailFragment
 import com.borsch_team.moneysaver.ui.bill_editor.BillEditorActivity
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -27,14 +28,26 @@ class TransactionsFragment : Fragment() {
     ): View {
         viewModel = ViewModelProvider(this)[TransactionsViewModel::class.java]
         binding = FragmentTransactionsBinding.inflate(inflater, container, false)
-        adapter = BillsAdapter(requireActivity()) {
+        viewModel.bills.observe(viewLifecycleOwner) { bills ->
+            adapter.updateDataset(bills)
+        }
+        adapter = BillsAdapter(emptyList(), { bill ->
+            val fragment = BillDetailFragment(bill)
+            fragment.show(childFragmentManager, "bill_info: ${bill.id}")
+        }) {
             startActivity(Intent(requireContext(), BillEditorActivity::class.java))
         }
         binding.billsPager.setPageTransformer(MarginPageTransformer(40))
         binding.billsPager.adapter = adapter
         TabLayoutMediator(binding.tabDots, binding.billsPager, true) { _, _ -> }.attach()
         initializeTabs()
+        viewModel.getBills()
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getBills()
     }
 
     private fun initializeTabs() {

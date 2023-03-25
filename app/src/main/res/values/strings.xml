@@ -15,4 +15,10 @@
     <string name="title_planned_bills">Запланированные траты</string>
     <string name="title_analysis">Анализ расходов</string>
     <string name="title_profile">Профиль</string>
+    <string name="title_planned_bills_short">Планы</string>
+    <string name="title_analysis_short">Анализ</string>
+    <string name="month_income">Доходы за месяц</string>
+    <string name="month_expenses">Расходы за месяц</string>
+    <string name="edit">Редактировать</string>
+    <string name="delete_bill">Удалить счет</string>
 </resources>

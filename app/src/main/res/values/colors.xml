@@ -9,6 +9,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background">#F5F5F5</color>
-    <color name="cardBlueLight">#18A077</color>
-    <color name="cardBlueDark">#51C6A3</color>
+    <color name="cardGreenLight">#18A077</color>
+    <color name="cardGreenDark">#51C6A3</color>
+    <color name="cardBlueLight">#225D9F</color>
+    <color name="cardBlueDark">#78A8DD</color>
+    <color name="expenses">#FF4242</color>
+    <color name="incomes">#60FF75</color>
 </resources>

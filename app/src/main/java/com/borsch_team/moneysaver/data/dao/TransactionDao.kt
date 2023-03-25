@@ -8,26 +8,26 @@ import com.borsch_team.moneysaver.data.models.MoneyTransaction
 
 @Dao
 interface TransactionDao {
-    @Query("SELECT * FROM tran")
-    fun getAllTransactions(startTimeStamp: Long, endTimeStamp: Long): List<MoneyTransaction>
+    @Query("SELECT * FROM moneyTransaction WHERE date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
+    suspend fun getAllTransactions(startTimeStamp: Long, endTimeStamp: Long): List<MoneyTransaction>
 
-    @Query("SELECT * FROM tran WHERE isExpenses is FALSE")
-    fun getIncomeTransactions(startTimeStamp: Long, endTimeStamp: Long): List<MoneyTransaction>
+    @Query("SELECT * FROM moneyTransaction WHERE isExpenses is FALSE AND date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
+    suspend fun getIncomeTransactions(startTimeStamp: Long, endTimeStamp: Long): List<MoneyTransaction>
 
-    @Query("SELECT * FROM tran WHERE isExpenses is TRUE")
-    fun getExpensesTransactions(startTimeStamp: Long, endTimeStamp: Long): List<MoneyTransaction>
+    @Query("SELECT * FROM moneyTransaction WHERE isExpenses is TRUE AND date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
+    suspend fun getExpensesTransactions(startTimeStamp: Long, endTimeStamp: Long): List<MoneyTransaction>
 
-    @Query("SELECT * FROM tran WHERE transactionId = :id")
-    fun getTransaction(id: Long): MoneyTransaction
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(moneyTransaction: MoneyTransaction): Long
+    @Query("SELECT * FROM moneyTransaction WHERE transactionId = :id")
+    suspend fun getTransaction(id: Long): MoneyTransaction
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun update(moneyTransaction: MoneyTransaction): Long
+    suspend fun insert(moneyTransaction: MoneyTransaction): Long
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun update(moneyTransaction: MoneyTransaction): Long
 
     @androidx.room.Transaction
-    fun upsert(moneyTransaction: MoneyTransaction): Long{
+    suspend fun upsert(moneyTransaction: MoneyTransaction): Long{
         var id = insert(moneyTransaction)
         if (id == -1L){
             id = update(moneyTransaction)
@@ -35,6 +35,6 @@ interface TransactionDao {
         return id
     }
 
-    @Query("DELETE FROM tran WHERE transactionId = :id")
-    fun delete(id: Long)
+    @Query("DELETE FROM moneyTransaction WHERE transactionId = :id")
+    suspend fun delete(id: Long)
 }

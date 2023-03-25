@@ -9,7 +9,7 @@
     <item
         android:id="@+id/navigation_planned_bills"
         android:icon="@drawable/baseline_calendar_month_24"
-        android:title="@string/title_planned_bills" />
+        android:title="@string/title_planned_bills_short" />
 
     <item
         android:icon="@android:color/transparent"
@@ -19,7 +19,7 @@
     <item
         android:id="@+id/navigation_analysis"
         android:icon="@drawable/baseline_analytics_24"
-        android:title="@string/title_analysis" />
+        android:title="@string/title_analysis_short" />
 
     <item
         android:id="@+id/navigation_profile"
