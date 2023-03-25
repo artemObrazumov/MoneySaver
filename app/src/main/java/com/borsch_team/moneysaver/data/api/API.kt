@@ -2,6 +2,7 @@ package com.borsch_team.moneysaver.data.api
 
 import com.borsch_team.moneysaver.data.databases.MoneySaverDatabase
 import com.borsch_team.moneysaver.data.models.Bill
+import com.borsch_team.moneysaver.data.models.TransactionCategory
 import com.borsch_team.moneysaver.data.models.MoneyTransaction
 
 class API(private val database: MoneySaverDatabase) {
@@ -13,6 +14,16 @@ class API(private val database: MoneySaverDatabase) {
 
     suspend fun upsertBill(bill: Bill) =
         database.billDao().upsert(bill)
+
+    suspend fun upsertCategory(category: TransactionCategory) {
+        database.categoriesDao().upsert(category)
+    }
+
+    suspend fun getExpensesCategory() =
+        database.categoriesDao().getSpecificCategories(true)
+
+    suspend fun getIncomesCategory() =
+        database.categoriesDao().getSpecificCategories(false)
 
     suspend fun getExpensesTransactions(): ArrayList<MoneyTransaction> {
         return arrayListOf(

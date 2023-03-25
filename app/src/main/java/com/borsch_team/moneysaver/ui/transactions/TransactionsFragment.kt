@@ -1,6 +1,7 @@
 package com.borsch_team.moneysaver.ui.transactions
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -24,6 +25,8 @@ class TransactionsFragment : Fragment() {
     private lateinit var viewModel: TransactionsViewModel
     private lateinit var adapter: BillsAdapter
     private lateinit var pagerAdapter: TransactionPagerAdapter
+    private lateinit var selectedColor: ColorStateList
+    private lateinit var unselectedColor: ColorStateList
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,8 +55,8 @@ class TransactionsFragment : Fragment() {
 
         initializeTabs()
         viewModel.getBills()
-
-
+        selectedColor = binding.tabExpenses.textColors
+        unselectedColor = binding.tabIncome.textColors
         return binding.root
     }
 
@@ -94,9 +97,6 @@ class TransactionsFragment : Fragment() {
     }
 
     private fun tabSelected(position: Int){
-        val selectedColor = binding.tabExpenses.textColors
-        val unselectedColor = binding.tabIncome.textColors
-
         if(position == 0){
             binding.tabSelector.animate().x(0f).duration = 100L
             binding.tabExpenses.setTextColor(selectedColor)

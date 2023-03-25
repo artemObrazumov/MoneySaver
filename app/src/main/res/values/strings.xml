@@ -21,4 +21,6 @@
     <string name="month_expenses">Расходы за месяц</string>
     <string name="edit">Редактировать</string>
     <string name="delete_bill">Удалить счет</string>
+    <string name="categoryTo">Категория относится к:</string>
+    <string name="addCategory">Добавить категорию</string>
 </resources>

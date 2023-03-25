@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ExperimentalGetImage
 import com.borsch_team.moneysaver.databinding.ActivityTransactionEditorBinding
+import com.borsch_team.moneysaver.ui.category_select.CategorySelectFragment
 import com.borsch_team.moneysaver.ui.qr_scanner.QrScannerActivity
 
 @ExperimentalGetImage class TransactionEditorActivity : AppCompatActivity() {
@@ -34,6 +35,8 @@ import com.borsch_team.moneysaver.ui.qr_scanner.QrScannerActivity
         binding.tvScanQr.setOnClickListener {
             startActivity(Intent(this, QrScannerActivity::class.java))
         }
-
+        binding.button.setOnClickListener {
+            CategorySelectFragment().show(supportFragmentManager, "select_category")
+        }
     }
 }
