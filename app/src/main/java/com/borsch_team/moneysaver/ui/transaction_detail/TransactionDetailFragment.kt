@@ -18,7 +18,7 @@ class TransactionDetailFragment(private val data: String) : BottomSheetDialogFra
     ): View {
         binding = FragmentTransactionDetailBinding.inflate(inflater)
 
-        binding.tvData.text = data
+
 
         return binding.root
     }
