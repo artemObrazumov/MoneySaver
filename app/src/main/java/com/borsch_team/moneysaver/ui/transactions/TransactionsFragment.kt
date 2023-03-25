@@ -32,7 +32,9 @@ class TransactionsFragment : Fragment() {
             adapter.updateDataset(bills)
         }
         adapter = BillsAdapter(emptyList(), { bill ->
-            val fragment = BillDetailFragment(bill)
+            val fragment = BillDetailFragment(bill) {
+                editBill(it)
+            }
             fragment.show(childFragmentManager, "bill_info: ${bill.id}")
         }) {
             startActivity(Intent(requireContext(), BillEditorActivity::class.java))
@@ -43,6 +45,14 @@ class TransactionsFragment : Fragment() {
         initializeTabs()
         viewModel.getBills()
         return binding.root
+    }
+
+    private fun editBill(billId: Long) {
+        startActivity(
+            Intent(
+                requireContext(), BillEditorActivity::class.java
+            ).apply { putExtra("billId", billId) }
+        )
     }
 
     override fun onResume() {

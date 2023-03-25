@@ -1,9 +1,6 @@
 package com.borsch_team.moneysaver.data.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.borsch_team.moneysaver.data.models.Bill
 
 @Dao
@@ -17,14 +14,14 @@ interface BillDao{
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(bill: Bill): Long
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun update(bill: Bill): Long
+    @Update(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun update(bill: Bill): Int
 
     @androidx.room.Transaction
     suspend fun upsert(bill: Bill): Long{
         var id = insert(bill)
         if (id == -1L){
-            id = update(bill)
+            id = update(bill).toLong()
         }
         return id
     }

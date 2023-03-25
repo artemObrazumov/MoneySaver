@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.borsch_team.moneysaver.Constants
 import com.borsch_team.moneysaver.R
@@ -15,6 +16,7 @@ class BillEditorActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBillEditorBinding
     private lateinit var viewModel: BillEditorViewModel
+    private var billId: Long? = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +41,13 @@ class BillEditorActivity : AppCompatActivity() {
     }
 
     private fun checkIfEditing() {
-        // TODO: Метод для проверки редактирования счета. Если да, то подгружать инфу о счете
+        billId = intent.getLongExtra("billId", -1L)
+        if (billId != -1L) {
+            supportActionBar?.title = "Редактирование счёта"
+            viewModel.getBill(billId!!)
+            binding.balanceInput.isEnabled = false
+            binding.remove.visibility = View.VISIBLE
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -62,8 +70,11 @@ class BillEditorActivity : AppCompatActivity() {
     }
 
     private fun onEditingFinished() {
+        if (billId == -1L) {
+            billId = null
+        }
         val bill = Bill(
-            null,
+            billId,
             binding.typeSelect.selectedItemPosition,
             binding.titleInput.text.toString().trim(),
             binding.balanceInput.text.toString().trim().toFloat(),

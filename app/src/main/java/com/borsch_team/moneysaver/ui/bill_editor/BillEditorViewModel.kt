@@ -19,7 +19,6 @@ class BillEditorViewModel: ViewModel() {
 
     fun uploadBill(bill: Bill) {
         viewModelScope.launch (Dispatchers.IO) {
-            val a = App.api
             App.api.upsertBill(bill)
         }
     }
