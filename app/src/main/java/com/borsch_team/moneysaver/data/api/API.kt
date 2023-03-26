@@ -1,9 +1,13 @@
 package com.borsch_team.moneysaver.data.api
 
+import android.util.Log
+import android.widget.Toast
 import com.borsch_team.moneysaver.data.databases.MoneySaverDatabase
+import com.borsch_team.moneysaver.data.models.AuthResult
 import com.borsch_team.moneysaver.data.models.Bill
 import com.borsch_team.moneysaver.data.models.TransactionCategory
 import com.borsch_team.moneysaver.data.models.MoneyTransaction
+import com.google.firebase.auth.FirebaseAuth
 
 class API(private val database: MoneySaverDatabase) {
     suspend fun getBills() =
@@ -46,5 +50,41 @@ class API(private val database: MoneySaverDatabase) {
             MoneyTransaction(3, false, "Фриланс", "Описание", 3, 3, 1, 250.0F),
             MoneyTransaction(4, false, "Материнский капитал", "Описание", 4, 4, 1, 300.0F),
         )
+    }
+
+    suspend fun signInWithEmail(email: String, password: String, callback: (AuthResult) -> Unit){
+        //signin in
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful){
+                val user = FirebaseAuth.getInstance().currentUser
+                callback(AuthResult(true, user!!, ""))
+            }else{
+                Log.d("FirebaseAuthSignIn", task.exception.toString())
+                callback(AuthResult(false, null, task.exception.toString()))
+            }
+        }
+    }
+
+    suspend fun signUpWithEmail(email: String, password: String, callback: (AuthResult) -> Unit){
+        //signin up
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful){
+                val user = FirebaseAuth.getInstance().currentUser
+                callback(AuthResult(true, user!!, ""))
+            }else{
+                Log.d("FirebaseAuthSignUp", task.exception.toString())
+                callback(AuthResult(false, null, task.exception.toString()))
+            }
+        }
+    }
+
+    suspend fun resetPassword(email: String, callback: (AuthResult) -> Unit){
+        FirebaseAuth.getInstance().sendPasswordResetEmail(email).addOnCompleteListener { task ->
+            if(task.isSuccessful){
+                callback(AuthResult(true, null, ""))
+            }else{
+                callback(AuthResult(false, null, task.exception.toString()))
+            }
+        }
     }
 }
