@@ -11,11 +11,11 @@ interface TransactionDao {
     @Query("SELECT * FROM moneyTransaction WHERE date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
     suspend fun getAllTransactions(startTimeStamp: Long, endTimeStamp: Long): List<MoneyTransaction>
 
-    @Query("SELECT * FROM moneyTransaction WHERE isExpenses is FALSE AND date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
-    suspend fun getIncomeTransactions(startTimeStamp: Long, endTimeStamp: Long): List<MoneyTransaction>
+    @Query("SELECT * FROM moneyTransaction WHERE isExpenses is FALSE AND idBill = :bill AND date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
+    suspend fun getIncomeTransactions(bill: Long, startTimeStamp: Long, endTimeStamp: Long): List<MoneyTransaction>
 
-    @Query("SELECT * FROM moneyTransaction WHERE isExpenses is TRUE AND date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
-    suspend fun getExpensesTransactions(startTimeStamp: Long, endTimeStamp: Long): List<MoneyTransaction>
+    @Query("SELECT * FROM moneyTransaction WHERE isExpenses is TRUE AND idBill = :bill AND date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
+    suspend fun getExpensesTransactions(bill: Long, startTimeStamp: Long, endTimeStamp: Long): List<MoneyTransaction>
 
     @Query("SELECT * FROM moneyTransaction WHERE transactionId = :id")
     suspend fun getTransaction(id: Long): MoneyTransaction

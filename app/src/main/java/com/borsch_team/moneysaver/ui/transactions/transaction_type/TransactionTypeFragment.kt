@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.borsch_team.moneysaver.data.models.TimeRange
 import com.borsch_team.moneysaver.databinding.FragmentTransactionTypeBinding
 import com.borsch_team.moneysaver.ui.adapter.TransactionTypeAdapter
 import com.borsch_team.moneysaver.ui.transaction_detail.TransactionDetailFragment
@@ -35,17 +36,23 @@ class TransactionTypeFragment(private val isExpenses: Boolean): Fragment() {
                 val data = it
                 adapter.setDataList(data)
             }
-            viewModel.loadExpenses()
         }else{
             viewModel.arrIncome.observe(viewLifecycleOwner){
                 adapter.setDataList(it)
             }
-            viewModel.loadIncome()
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = adapter
 
 
         return binding.root
+    }
+
+    fun updateFragment(billID: Long, timeRange: TimeRange) {
+        if (isExpenses) {
+            viewModel.loadSpecifiedExpenses(billID, timeRange)
+        } else {
+            viewModel.loadSpecifiedIncomes(billID, timeRange)
+        }
     }
 }
