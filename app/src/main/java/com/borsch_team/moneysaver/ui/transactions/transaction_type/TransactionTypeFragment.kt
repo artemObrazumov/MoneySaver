@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.borsch_team.moneysaver.databinding.FragmentTransactionTypeBinding
 import com.borsch_team.moneysaver.ui.adapter.TransactionTypeAdapter
+import com.borsch_team.moneysaver.ui.transaction_detail.TransactionDetailFragment
 
 class TransactionTypeFragment(private val isExpenses: Boolean): Fragment() {
 
@@ -26,6 +27,7 @@ class TransactionTypeFragment(private val isExpenses: Boolean): Fragment() {
         viewModel = ViewModelProvider(this)[TransactionTypeViewModel::class.java]
         adapter = TransactionTypeAdapter {
             Toast.makeText(context, "${it.isExpenses.toString()}: ${it.name}", Toast.LENGTH_SHORT).show()
+            TransactionDetailFragment(it.name!!).show(childFragmentManager, "tag")
         }
 
         if(isExpenses){
