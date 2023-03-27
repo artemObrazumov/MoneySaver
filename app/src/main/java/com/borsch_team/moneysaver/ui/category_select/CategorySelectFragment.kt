@@ -5,18 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.borsch_team.moneysaver.data.models.TransactionCategory
 import com.borsch_team.moneysaver.databinding.FragmentCategorySelectBinding
-import com.borsch_team.moneysaver.databinding.FragmentTransactionDetailBinding
 import com.borsch_team.moneysaver.ui.adapter.CategoryAdapter
 import com.borsch_team.moneysaver.ui.category_editor.CategoryEditorActivity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class CategorySelectFragment: BottomSheetDialogFragment() {
+class CategorySelectFragment(
+    private val onCategorySelected: (category: TransactionCategory) -> Unit
+): BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentCategorySelectBinding
     private lateinit var viewModel: CategorySelectViewModel
@@ -37,12 +36,12 @@ class CategorySelectFragment: BottomSheetDialogFragment() {
             incomesAdapter.updateDataset(categories)
         }
         expensesAdapter = CategoryAdapter(emptyList(), { category ->
-            onCategorySelected(category)
+            sendCategory(category)
         }) {
             createNewCategory()
         }
         incomesAdapter = CategoryAdapter(emptyList(), { category ->
-            onCategorySelected(category)
+            sendCategory(category)
         }) {
             createNewCategory()
         }
@@ -57,8 +56,9 @@ class CategorySelectFragment: BottomSheetDialogFragment() {
         startActivity(Intent(requireContext(), CategoryEditorActivity::class.java))
     }
 
-    private fun onCategorySelected(category: TransactionCategory) {
-
+    private fun sendCategory(category: TransactionCategory) {
+        onCategorySelected(category)
+        dismiss()
     }
 
     override fun onResume() {

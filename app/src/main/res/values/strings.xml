@@ -23,4 +23,7 @@
     <string name="delete_bill">Удалить счет</string>
     <string name="categoryTo">Категория относится к:</string>
     <string name="addCategory">Добавить категорию</string>
+    <string name="category">Категория</string>
+    <string name="selectCategory">Выберите категорию...</string>
+    <string name="description">Описание</string>
 </resources>

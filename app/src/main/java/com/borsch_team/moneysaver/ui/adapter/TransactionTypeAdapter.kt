@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.data.models.MoneyTransaction
 import com.borsch_team.moneysaver.databinding.TransactionItemBinding
-import com.bumptech.glide.Glide
 
 class TransactionTypeAdapter(private val clickedItem: (item: MoneyTransaction) -> Unit):
     RecyclerView.Adapter<TransactionTypeAdapter.ViewHolder>() {
@@ -16,7 +15,7 @@ class TransactionTypeAdapter(private val clickedItem: (item: MoneyTransaction) -
     private var dataList = emptyList<MoneyTransaction>()
 
     @SuppressLint("NotifyDataSetChanged")
-    internal fun setDataList(dataList: ArrayList<MoneyTransaction>){
+    internal fun setDataList(dataList: List<MoneyTransaction>){
         this.dataList = dataList
         notifyDataSetChanged()
     }

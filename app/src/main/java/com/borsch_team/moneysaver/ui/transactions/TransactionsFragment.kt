@@ -3,7 +3,6 @@ package com.borsch_team.moneysaver.ui.transactions
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +11,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.borsch_team.moneysaver.R
+import com.borsch_team.moneysaver.data.models.Bill
+import com.borsch_team.moneysaver.data.models.TimeRange
 import com.borsch_team.moneysaver.databinding.FragmentTransactionsBinding
 import com.borsch_team.moneysaver.ui.adapter.BillsAdapter
 import com.borsch_team.moneysaver.ui.adapter.TransactionPagerAdapter
 import com.borsch_team.moneysaver.ui.bill_detail.BillDetailFragment
 import com.borsch_team.moneysaver.ui.bill_editor.BillEditorActivity
 import com.google.android.material.tabs.TabLayoutMediator
+import java.util.*
 
 class TransactionsFragment : Fragment() {
 
@@ -27,6 +29,9 @@ class TransactionsFragment : Fragment() {
     private lateinit var pagerAdapter: TransactionPagerAdapter
     private lateinit var selectedColor: ColorStateList
     private lateinit var unselectedColor: ColorStateList
+
+    private lateinit var selectedBillID: String
+    private lateinit var timeRange: TimeRange
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,16 +53,51 @@ class TransactionsFragment : Fragment() {
         }
         binding.billsPager.setPageTransformer(MarginPageTransformer(40))
         binding.billsPager.adapter = adapter
+        binding.billsPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                try {
+                    onBillChanged(adapter.getBill(position))
+                } catch (_: java.lang.Exception) {}
+            }
+        })
         TabLayoutMediator(binding.tabDots, binding.billsPager, true) { _, _ -> }.attach()
-
-        pagerAdapter = TransactionPagerAdapter(requireActivity())
-        binding.transactionsPagerAdapter.adapter = pagerAdapter
-
+        findCurrentTimeRange()
+        initializePager()
         initializeTabs()
         viewModel.getBills()
         selectedColor = binding.tabExpenses.textColors
         unselectedColor = binding.tabIncome.textColors
         return binding.root
+    }
+
+    private fun initializePager() {
+        pagerAdapter = TransactionPagerAdapter(requireActivity())
+        binding.transactionsPagerAdapter.adapter = pagerAdapter
+    }
+
+    private fun findCurrentTimeRange(
+        calendar: Calendar = Calendar.getInstance()
+    ) {
+        timeRange = TimeRange(
+            calendar.apply {
+                set(Calendar.DAY_OF_MONTH, 1)
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }.timeInMillis,
+            calendar.apply {
+                set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+                set(Calendar.HOUR_OF_DAY, calendar.getActualMaximum(Calendar.HOUR_OF_DAY))
+                set(Calendar.MINUTE, calendar.getActualMaximum(Calendar.MINUTE))
+                set(Calendar.SECOND, calendar.getActualMaximum(Calendar.SECOND))
+                set(Calendar.MILLISECOND, calendar.getActualMaximum(Calendar.MILLISECOND))
+            }.timeInMillis
+        )
+    }
+
+    private fun onBillChanged(bill: Bill) {
+
     }
 
     private fun editBill(billId: Long) {

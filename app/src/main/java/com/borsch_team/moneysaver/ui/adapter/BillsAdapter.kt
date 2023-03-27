@@ -104,4 +104,6 @@ class BillsAdapter(
         this.bills = bills
         notifyDataSetChanged()
     }
+
+    fun getBill(position: Int): Bill = bills[position]
 }
