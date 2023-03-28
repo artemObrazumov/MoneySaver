@@ -32,6 +32,7 @@ class TransactionsFragment : Fragment() {
 
     private lateinit var selectedBillID: String
     private lateinit var timeRange: TimeRange
+    private var childFragmentsInitialized = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,18 +41,15 @@ class TransactionsFragment : Fragment() {
     ): View {
         viewModel = ViewModelProvider(this)[TransactionsViewModel::class.java]
         binding = FragmentTransactionsBinding.inflate(inflater, container, false)
-        viewModel.bills.observe(viewLifecycleOwner) { bills ->
-            adapter.updateDataset(bills)
-        }
+        binding.billsPager.setPageTransformer(MarginPageTransformer(40))
         adapter = BillsAdapter(emptyList(), { bill ->
             val fragment = BillDetailFragment(bill) {
                 editBill(it)
             }
             fragment.show(childFragmentManager, "bill_info: ${bill.id}")
-        }) {
+        }, {
             startActivity(Intent(requireContext(), BillEditorActivity::class.java))
-        }
-        binding.billsPager.setPageTransformer(MarginPageTransformer(40))
+        })
         binding.billsPager.adapter = adapter
         binding.billsPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
@@ -64,14 +62,21 @@ class TransactionsFragment : Fragment() {
         findCurrentTimeRange()
         initializePager()
         initializeTabs()
-        viewModel.getBills()
+        viewModel.bills.observe(viewLifecycleOwner) { bills ->
+            adapter.updateDataset(bills)
+            //onBillChanged(bills.first())
+        }
         selectedColor = binding.tabExpenses.textColors
         unselectedColor = binding.tabIncome.textColors
         return binding.root
     }
 
     private fun initializePager() {
-        pagerAdapter = TransactionPagerAdapter(requireActivity())
+        binding.transactionsPagerAdapter.offscreenPageLimit = 2
+        pagerAdapter = TransactionPagerAdapter(requireActivity()) {
+            childFragmentsInitialized = true
+        }
+        viewModel.getBills()
         binding.transactionsPagerAdapter.adapter = pagerAdapter
     }
 
@@ -97,7 +102,7 @@ class TransactionsFragment : Fragment() {
     }
 
     private fun onBillChanged(bill: Bill) {
-
+        pagerAdapter.updateAdapter(bill.id!!, timeRange)
     }
 
     private fun editBill(billId: Long) {
@@ -110,7 +115,9 @@ class TransactionsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getBills()
+        if (childFragmentsInitialized) {
+            viewModel.getBills()
+        }
     }
 
     private fun initializeTabs() {

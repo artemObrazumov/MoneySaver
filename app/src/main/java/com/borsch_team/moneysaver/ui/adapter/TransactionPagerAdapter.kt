@@ -12,11 +12,25 @@ import com.borsch_team.moneysaver.data.models.TimeRange
 import com.borsch_team.moneysaver.ui.transactions.transaction_type.TransactionTypeFragment
 
 class TransactionPagerAdapter(
-    fragmentActivity: FragmentActivity
+    fragmentActivity: FragmentActivity,
+    private val onCreated: () -> Unit
 ): FragmentStateAdapter(fragmentActivity) {
 
-    private val expensesFragment = TransactionTypeFragment(true)
-    private val incomesFragment = TransactionTypeFragment(false)
+    private var expensesFragmentInitialized = false
+    private var incomesFragmentInitialized = false
+
+    private val expensesFragment = TransactionTypeFragment(true) {
+        expensesFragmentInitialized = true
+        if (incomesFragmentInitialized) {
+            onCreated()
+        }
+    }
+    private val incomesFragment = TransactionTypeFragment(false) {
+        incomesFragmentInitialized = true
+        if (expensesFragmentInitialized) {
+            onCreated()
+        }
+    }
 
     fun updateAdapter(
         billID: Long,

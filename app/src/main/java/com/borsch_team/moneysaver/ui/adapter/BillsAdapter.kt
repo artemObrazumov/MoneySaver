@@ -15,7 +15,8 @@ import com.borsch_team.moneysaver.databinding.BillLastItemBinding
 class BillsAdapter(
     private var bills: List<Bill>,
     private val onBillClicked: (bill: Bill) -> Unit,
-    private val onNewBillClicked: () -> Unit
+    private val onNewBillClicked: () -> Unit,
+    private var hasEmptyBill: Boolean = true
 ): RecyclerView.Adapter<ViewHolder>() {
 
     class BillViewHolder (
@@ -63,6 +64,7 @@ class BillsAdapter(
 
     override fun getItemViewType(position: Int): Int =
         if (position < itemCount-1) { 0 }
+        else if (!hasEmptyBill) { 0 }
         else { 1 }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -97,7 +99,9 @@ class BillsAdapter(
         }
     }
 
-    override fun getItemCount(): Int = bills.size+1
+    override fun getItemCount(): Int =
+        if (hasEmptyBill) {bills.size+1}
+        else {bills.size}
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateDataset(bills: List<Bill>) {
