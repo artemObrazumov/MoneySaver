@@ -11,12 +11,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.borsch_team.moneysaver.data.models.TimeRange
 import com.borsch_team.moneysaver.databinding.FragmentTransactionTypeBinding
 import com.borsch_team.moneysaver.ui.adapter.TransactionTypeAdapter
+import java.sql.Time
 
-class TransactionTypeFragment(private val isExpenses: Boolean): Fragment() {
+class TransactionTypeFragment(
+    private val isExpenses: Boolean,
+    private val onCreated: () -> Unit
+): Fragment() {
 
     private lateinit var binding: FragmentTransactionTypeBinding
     private lateinit var viewModel: TransactionTypeViewModel
     private lateinit var adapter: TransactionTypeAdapter
+
+    private var savedBillId: Long? = null
+    private var savedTimeRange: TimeRange? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,15 +50,27 @@ class TransactionTypeFragment(private val isExpenses: Boolean): Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = adapter
 
+        onCreated()
 
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        try {
+            updateFragment(savedBillId!!, savedTimeRange!!)
+        } catch (_:Exception) {}
+    }
+
     fun updateFragment(billID: Long, timeRange: TimeRange) {
-        if (isExpenses) {
-            viewModel.loadSpecifiedExpenses(billID, timeRange)
-        } else {
-            viewModel.loadSpecifiedIncomes(billID, timeRange)
-        }
+        try {
+            savedBillId = billID
+            savedTimeRange = timeRange
+            if (isExpenses) {
+                viewModel.loadSpecifiedExpenses(billID, timeRange)
+            } else {
+                viewModel.loadSpecifiedIncomes(billID, timeRange)
+            }
+        } catch (_: Exception) {}
     }
 }

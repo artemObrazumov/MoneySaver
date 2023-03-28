@@ -1,12 +1,11 @@
 package com.borsch_team.moneysaver.data.api
 
 import android.util.Log
-import android.widget.Toast
 import com.borsch_team.moneysaver.data.databases.MoneySaverDatabase
 import com.borsch_team.moneysaver.data.models.AuthResult
 import com.borsch_team.moneysaver.data.models.Bill
-import com.borsch_team.moneysaver.data.models.TransactionCategory
 import com.borsch_team.moneysaver.data.models.MoneyTransaction
+import com.borsch_team.moneysaver.data.models.TransactionCategory
 import com.google.firebase.auth.FirebaseAuth
 
 class API(private val database: MoneySaverDatabase) {

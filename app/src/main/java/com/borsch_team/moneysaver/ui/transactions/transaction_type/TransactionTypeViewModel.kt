@@ -41,7 +41,7 @@ class TransactionTypeViewModel: ViewModel() {
 
     fun loadSpecifiedIncomes(billID: Long, timeRange: TimeRange) {
         viewModelScope.launch(Dispatchers.IO) {
-            arrExpenses.postValue(App.api.getIncomesTransactions(
+            arrIncome.postValue(App.api.getIncomesTransactions(
                 billID,
                 timeRange.startTimestamp,
                 timeRange.endTimestamp))

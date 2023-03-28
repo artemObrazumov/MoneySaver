@@ -12,7 +12,7 @@ class App: Application() {
         instance = this
         moneySaverDatabase = Room.databaseBuilder(
             applicationContext, MoneySaverDatabase::class.java, "moneySaver"
-        ).build()
+        ).createFromAsset("database/categories.db").build()
         api = API(moneySaverDatabase)
     }
 
