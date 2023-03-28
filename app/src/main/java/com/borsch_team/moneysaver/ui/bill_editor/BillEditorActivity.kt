@@ -80,5 +80,6 @@ class BillEditorActivity : AppCompatActivity() {
             binding.balanceInput.text.toString().trim().toFloat(),
         )
         viewModel.uploadBill(bill)
+        // TODO: Успешная отправка
     }
 }

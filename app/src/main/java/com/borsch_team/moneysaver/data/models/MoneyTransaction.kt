@@ -14,5 +14,6 @@ data class MoneyTransaction(
     @ColumnInfo(name = "date") var date: Long?,
     @ColumnInfo(name = "idCategory") var idCategory: Int?,
     @ColumnInfo(name = "idBill") var idBill: Int?,
-    @ColumnInfo(name = "money") var money: Float?
+    @ColumnInfo(name = "money") var money: Float?,
+    @ColumnInfo(name = "isPlanned") var isPlanned: Boolean?
 )

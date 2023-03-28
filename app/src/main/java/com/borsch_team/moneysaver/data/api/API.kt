@@ -2,10 +2,7 @@ package com.borsch_team.moneysaver.data.api
 
 import android.util.Log
 import com.borsch_team.moneysaver.data.databases.MoneySaverDatabase
-import com.borsch_team.moneysaver.data.models.AuthResult
-import com.borsch_team.moneysaver.data.models.Bill
-import com.borsch_team.moneysaver.data.models.MoneyTransaction
-import com.borsch_team.moneysaver.data.models.TransactionCategory
+import com.borsch_team.moneysaver.data.models.*
 import com.google.firebase.auth.FirebaseAuth
 
 class API(private val database: MoneySaverDatabase) {
@@ -94,13 +91,13 @@ class API(private val database: MoneySaverDatabase) {
         billID: Long,
         startTimestamp: Long,
         endTimestamp: Long
-    ): List<MoneyTransaction> =
+    ): List<TransactionAndCategory> =
         database.transactionDao().getExpensesTransactions(billID, startTimestamp, endTimestamp)
 
     suspend fun getIncomesTransactions(
         billID: Long,
         startTimestamp: Long,
         endTimestamp: Long
-    ): List<MoneyTransaction> =
+    ): List<TransactionAndCategory> =
         database.transactionDao().getIncomeTransactions(billID, startTimestamp, endTimestamp)
 }

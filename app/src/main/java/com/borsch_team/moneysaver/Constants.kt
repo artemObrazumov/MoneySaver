@@ -16,5 +16,28 @@ class Constants {
             BillTypeItem(R.drawable.ic_card, "Карта"),
             BillTypeItem(R.drawable.ic_banknotes, "Наличные")
         )
+
+        fun getCategoryImageResource(categoryId: Long): Int =
+            when (categoryId) {
+                1L -> R.drawable.cart_svgrepo_com
+                2L -> R.drawable.fashion_svgrepo_com
+                3L -> R.drawable.flower_svgrepo_com
+                4L -> R.drawable.brush_pencil_svgrepo_com
+                5L -> R.drawable.clipboard_svgrepo_com
+                6L -> R.drawable.cat_icon
+                7L -> R.drawable.car_svgrepo_com
+                8L -> R.drawable.mail_svgrepo_com
+                9L -> R.drawable.pills_pill_svgrepo_com
+                10L -> R.drawable.restaurant_plate_svgrepo_com
+                11L -> R.drawable.arrow_down_svgrepo_com
+                12L -> R.drawable.money_svgrepo_com
+                13L -> R.drawable.zoomout_svgrepo_com
+                14L -> R.drawable.briefcase_svgrepo_com
+                15L -> R.drawable.arrow_down_svgrepo_com
+                16L -> R.drawable.money_svgrepo_com
+                17L -> R.drawable.zoomin_svgrepo_com
+                18L -> R.drawable.booklet_svgrepo_com
+                else -> R.drawable.ellipsis_6ngbbouw69zs
+            }
     }
 }

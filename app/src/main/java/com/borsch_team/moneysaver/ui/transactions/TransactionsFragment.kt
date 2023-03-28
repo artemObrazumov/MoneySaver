@@ -64,7 +64,7 @@ class TransactionsFragment : Fragment() {
         initializeTabs()
         viewModel.bills.observe(viewLifecycleOwner) { bills ->
             adapter.updateDataset(bills)
-            onBillChanged(bills.first())
+            //onBillChanged(bills.first())
         }
         selectedColor = binding.tabExpenses.textColors
         unselectedColor = binding.tabIncome.textColors

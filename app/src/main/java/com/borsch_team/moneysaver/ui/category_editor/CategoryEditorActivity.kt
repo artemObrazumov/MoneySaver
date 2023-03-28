@@ -57,6 +57,6 @@ class CategoryEditorActivity : AppCompatActivity() {
             binding.typeSelect.selectedItemPosition == 0
         )
         viewModel.upsertCategory(category)
-        onBackPressed()
+        // TODO: Успешная отправка
     }
 }

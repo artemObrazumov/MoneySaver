@@ -50,6 +50,17 @@ import java.util.*
         viewModel.bills.observe(this) { bills ->
             billsAdapter.updateDataset(bills)
         }
+        viewModel.transactionSendResult.observe(this) { result ->
+            when (result) {
+                Constants.TRANSACTION_RESULT_MONEY_ERROR -> {
+                    Snackbar
+                        .make(binding.root, "Недостаточно средств для совершения операции", Snackbar.LENGTH_LONG).show()
+                }
+                else -> {
+                    // TODO: Успешная отправка
+                }
+            }
+        }
         viewModel.getBills()
         binding.billsPager.adapter = billsAdapter
         binding.billsPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
@@ -131,11 +142,16 @@ import java.util.*
                     getTransactionDate(),
                     selectedCategory!!.id!!.toInt(),
                     selectedBillId!!.toInt(),
-                    binding.etMoney.text.toString().toFloat()
+                    binding.etMoney.text.toString().toFloat() * moneyKoeff(),
+                    false
                 )
             )
         }
     }
+
+    private fun moneyKoeff(): Int =
+        if (selectedCategory!!.isExpenses!!) { -1 }
+        else { 1 }
 
     private fun getTransactionDate(): Long = transactionTime!!
 }

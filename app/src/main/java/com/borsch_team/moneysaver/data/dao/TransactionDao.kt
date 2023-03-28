@@ -5,17 +5,18 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.borsch_team.moneysaver.data.models.MoneyTransaction
+import com.borsch_team.moneysaver.data.models.TransactionAndCategory
 
 @Dao
 interface TransactionDao {
     @Query("SELECT * FROM moneyTransaction WHERE date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
     suspend fun getAllTransactions(startTimeStamp: Long, endTimeStamp: Long): List<MoneyTransaction>
 
-    @Query("SELECT * FROM moneyTransaction WHERE isExpenses is 0 AND idBill = :bill AND date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
-    suspend fun getIncomeTransactions(bill: Long, startTimeStamp: Long, endTimeStamp: Long): List<MoneyTransaction>
+    @Query("SELECT * FROM moneyTransaction WHERE isExpenses is 0 AND isPlanned = 0 AND idBill = :bill AND date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
+    suspend fun getIncomeTransactions(bill: Long, startTimeStamp: Long, endTimeStamp: Long): List<TransactionAndCategory>
 
-    @Query("SELECT * FROM moneyTransaction WHERE isExpenses is 1 AND idBill = :bill AND date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
-    suspend fun getExpensesTransactions(bill: Long, startTimeStamp: Long, endTimeStamp: Long): List<MoneyTransaction>
+    @Query("SELECT * FROM moneyTransaction WHERE isExpenses is 1 AND isPlanned = 0 AND idBill = :bill AND date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
+    suspend fun getExpensesTransactions(bill: Long, startTimeStamp: Long, endTimeStamp: Long): List<TransactionAndCategory>
 
     @Query("SELECT * FROM moneyTransaction WHERE transactionId = :id")
     suspend fun getTransaction(id: Long): MoneyTransaction
