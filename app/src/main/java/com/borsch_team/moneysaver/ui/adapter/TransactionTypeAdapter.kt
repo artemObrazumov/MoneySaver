@@ -13,7 +13,7 @@ import com.borsch_team.moneysaver.data.models.TransactionAndCategory
 import com.borsch_team.moneysaver.databinding.TransactionItemBinding
 import kotlin.math.abs
 
-class TransactionTypeAdapter(private val clickedItem: (item: MoneyTransaction) -> Unit):
+class TransactionTypeAdapter(private val clickedItem: (item: TransactionAndCategory) -> Unit):
     RecyclerView.Adapter<TransactionTypeAdapter.ViewHolder>() {
 
     private var dataList = emptyList<TransactionAndCategory>()
@@ -24,7 +24,10 @@ class TransactionTypeAdapter(private val clickedItem: (item: MoneyTransaction) -
         notifyDataSetChanged()
     }
 
-    class ViewHolder(private val binding: TransactionItemBinding, private val clickedItem: (model: MoneyTransaction) -> Unit):
+    class ViewHolder(
+        private val binding: TransactionItemBinding,
+        private val clickedItem: (model: TransactionAndCategory) -> Unit
+    ):
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind(moneyTransaction: TransactionAndCategory) {
@@ -41,7 +44,7 @@ class TransactionTypeAdapter(private val clickedItem: (item: MoneyTransaction) -
                 ContextCompat.getDrawable(binding.root.context,
                 Constants.getCategoryImageResource(moneyTransaction.transaction.idCategory!!.toLong())
             ))
-            binding.root.setOnClickListener { clickedItem(moneyTransaction.transaction) }
+            binding.root.setOnClickListener { clickedItem(moneyTransaction) }
         }
     }
 

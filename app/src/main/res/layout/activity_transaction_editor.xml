@@ -148,29 +148,6 @@
                 app:tabGravity="center"
                 app:tabIndicatorHeight="0dp" />
 
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
-                android:layout_marginTop="12dp"
-                android:text="@string/description"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@+id/tabDots" />
-
-            <EditText
-                android:id="@+id/descriptionInput"
-                style="@style/edittext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
-                android:layout_marginTop="12dp"
-                android:hint="Описание покупки"
-                android:inputType="textPersonName"
-                app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
             <ImageView
                 android:id="@+id/tv_scan_qr"
                 android:layout_width="36dp"
@@ -195,7 +172,7 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@+id/descriptionInput" />
+                app:layout_constraintTop_toBottomOf="@+id/tabDots" />
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -233,6 +210,16 @@
                 app:layout_constraintBottom_toBottomOf="@+id/time"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/time" />
+
+            <CheckBox
+                android:id="@+id/isPlanned"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/isPlannedTransaction"
+                android:layout_marginTop="12dp"
+                android:layout_marginHorizontal="8dp"
+                android:buttonTint="@color/purple_500"
+                app:layout_constraintTop_toBottomOf="@+id/time" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

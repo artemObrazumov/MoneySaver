@@ -5,16 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.databinding.FragmentAnalysisBinding
 import com.borsch_team.moneysaver.ui.adapter.AnalysisPagerAdapter
-import com.borsch_team.moneysaver.ui.adapter.TransactionPagerAdapter
-import com.faskn.lib.PieChart
-import com.faskn.lib.Slice
 
 class AnalysisFragment : Fragment() {
 

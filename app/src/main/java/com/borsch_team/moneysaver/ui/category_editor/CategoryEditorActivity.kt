@@ -60,6 +60,6 @@ class CategoryEditorActivity : AppCompatActivity() {
         viewModel.upsertCategory(category)
         CompletedDialog("Категория загружена"){
             onBackPressed()
-        }
+        }.show(supportFragmentManager, "completed")
     }
 }

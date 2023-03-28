@@ -54,7 +54,9 @@ class TransactionsFragment : Fragment() {
         binding.billsPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
                 try {
-                    onBillChanged(adapter.getBill(position))
+                    if (position < adapter.itemCount) {
+                       onBillChanged(adapter.getBill(position))
+                    }
                 } catch (_: java.lang.Exception) {}
             }
         })
@@ -64,7 +66,9 @@ class TransactionsFragment : Fragment() {
         initializeTabs()
         viewModel.bills.observe(viewLifecycleOwner) { bills ->
             adapter.updateDataset(bills)
-            //onBillChanged(bills.first())
+            if (bills.isNotEmpty() && binding.billsPager.currentItem < adapter.itemCount) {
+                onBillChanged(adapter.getBill(binding.billsPager.currentItem))
+            }
         }
         selectedColor = binding.tabExpenses.textColors
         unselectedColor = binding.tabIncome.textColors

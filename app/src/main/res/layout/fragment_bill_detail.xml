@@ -38,7 +38,7 @@
                 android:textColor="@color/white"
                 android:textSize="28sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@+id/tv_trans_name"
+                app:layout_constraintTop_toBottomOf="@+id/name"
                 android:layout_marginStart="12dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

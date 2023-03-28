@@ -35,7 +35,7 @@ class TransactionTypeFragment(
         binding = FragmentTransactionTypeBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[TransactionTypeViewModel::class.java]
         adapter = TransactionTypeAdapter {
-            TransactionDetailFragment(it.name!!).show(childFragmentManager, "tag")
+            TransactionDetailFragment(it).show(childFragmentManager, "tag")
         }
 
         if(isExpenses){

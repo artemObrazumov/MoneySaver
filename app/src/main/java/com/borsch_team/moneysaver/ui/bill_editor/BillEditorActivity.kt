@@ -83,6 +83,6 @@ class BillEditorActivity : AppCompatActivity() {
         viewModel.uploadBill(bill)
         CompletedDialog("Счёт загружен"){
             onBackPressed()
-        }
+        }.show(supportFragmentManager, "completed")
     }
 }

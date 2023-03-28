@@ -30,4 +30,6 @@
     <string name="bill">Счет</string>
     <string name="transactionTime">Время операции</string>
     <string name="time">Время...</string>
+    <string name="deleteTransaction">Удалить операцию</string>
+    <string name="isPlannedTransaction">Запланированная операция</string>
 </resources>
