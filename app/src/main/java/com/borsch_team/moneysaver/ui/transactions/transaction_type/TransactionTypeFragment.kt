@@ -12,6 +12,7 @@ import com.borsch_team.moneysaver.data.models.TimeRange
 import com.borsch_team.moneysaver.databinding.FragmentTransactionTypeBinding
 import com.borsch_team.moneysaver.ui.adapter.TransactionTypeAdapter
 import java.sql.Time
+import com.borsch_team.moneysaver.ui.transaction_detail.TransactionDetailFragment
 
 class TransactionTypeFragment(
     private val isExpenses: Boolean,
@@ -34,7 +35,7 @@ class TransactionTypeFragment(
         binding = FragmentTransactionTypeBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[TransactionTypeViewModel::class.java]
         adapter = TransactionTypeAdapter {
-            Toast.makeText(context, "${it.isExpenses.toString()}: ${it.name}", Toast.LENGTH_SHORT).show()
+            TransactionDetailFragment(it.name!!).show(childFragmentManager, "tag")
         }
 
         if(isExpenses){
