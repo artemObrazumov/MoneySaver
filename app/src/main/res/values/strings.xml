@@ -26,4 +26,5 @@
     <string name="category">Категория</string>
     <string name="selectCategory">Выберите категорию...</string>
     <string name="description">Описание</string>
+    <string name="stoimost">Стоимость</string>
 </resources>

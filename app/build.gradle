@@ -80,4 +80,6 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:31.3.0')
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.android.gms:play-services-auth:20.4.1'
+    // Graphics
+    implementation 'com.github.furkanaskin:ClickablePieChart:1.0.9'
 }

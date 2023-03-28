@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.databinding.FragmentProfileBinding
 import com.borsch_team.moneysaver.ui.auth.sign_in.AuthSignInActivity
 import com.google.firebase.auth.FirebaseAuth
