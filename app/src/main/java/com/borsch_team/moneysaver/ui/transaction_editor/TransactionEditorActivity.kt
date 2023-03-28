@@ -15,6 +15,7 @@ import com.borsch_team.moneysaver.data.models.TransactionCategory
 import com.borsch_team.moneysaver.databinding.ActivityTransactionEditorBinding
 import com.borsch_team.moneysaver.ui.adapter.BillsAdapter
 import com.borsch_team.moneysaver.ui.category_select.CategorySelectFragment
+import com.borsch_team.moneysaver.ui.dialog.CompletedDialog
 import com.borsch_team.moneysaver.ui.qr_scanner.QrScannerActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
@@ -57,7 +58,9 @@ import java.util.*
                         .make(binding.root, "Недостаточно средств для совершения операции", Snackbar.LENGTH_LONG).show()
                 }
                 else -> {
-                    // TODO: Успешная отправка
+                    CompletedDialog("Операция загружена"){
+                        onBackPressed()
+                    }
                 }
             }
         }

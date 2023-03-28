@@ -11,6 +11,7 @@ import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.data.models.Bill
 import com.borsch_team.moneysaver.databinding.ActivityBillEditorBinding
 import com.borsch_team.moneysaver.ui.adapter.BillTypeAdapter
+import com.borsch_team.moneysaver.ui.dialog.CompletedDialog
 
 class BillEditorActivity : AppCompatActivity() {
 
@@ -80,6 +81,8 @@ class BillEditorActivity : AppCompatActivity() {
             binding.balanceInput.text.toString().trim().toFloat(),
         )
         viewModel.uploadBill(bill)
-        // TODO: Успешная отправка
+        CompletedDialog("Счёт загружен"){
+            onBackPressed()
+        }
     }
 }

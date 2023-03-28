@@ -10,6 +10,7 @@ import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.data.models.TransactionCategory
 import com.borsch_team.moneysaver.databinding.ActivityCategoryEditorBinding
 import com.borsch_team.moneysaver.ui.category_select.CategorySelectViewModel
+import com.borsch_team.moneysaver.ui.dialog.CompletedDialog
 
 class CategoryEditorActivity : AppCompatActivity() {
 
@@ -57,6 +58,8 @@ class CategoryEditorActivity : AppCompatActivity() {
             binding.typeSelect.selectedItemPosition == 0
         )
         viewModel.upsertCategory(category)
-        // TODO: Успешная отправка
+        CompletedDialog("Категория загружена"){
+            onBackPressed()
+        }
     }
 }
