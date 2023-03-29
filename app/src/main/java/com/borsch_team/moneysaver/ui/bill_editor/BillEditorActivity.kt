@@ -12,12 +12,14 @@ import com.borsch_team.moneysaver.data.models.Bill
 import com.borsch_team.moneysaver.databinding.ActivityBillEditorBinding
 import com.borsch_team.moneysaver.ui.adapter.BillTypeAdapter
 import com.borsch_team.moneysaver.ui.dialog.CompletedDialog
+import com.borsch_team.moneysaver.ui.dialog.WarningDialog
 
 class BillEditorActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBillEditorBinding
     private lateinit var viewModel: BillEditorViewModel
     private var billId: Long? = 0L
+    private var reserved: Float = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +29,15 @@ class BillEditorActivity : AppCompatActivity() {
             binding.titleInput.setText(bill.name)
             binding.typeSelect.setSelection(bill.idType!!)
             binding.balanceInput.setText(bill.balance.toString())
+            reserved = bill.reservedMoney!!
+        }
+        binding.remove.setOnClickListener {
+            WarningDialog("При удалении счёта удалятся и все операции, связанные с ним") {
+                viewModel.removeBill(billId!!)
+                CompletedDialog("Счёт удален") {
+                    onBackPressed()
+                }.show(supportFragmentManager, "completed")
+            }.show(supportFragmentManager, "warning")
         }
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
@@ -79,10 +90,11 @@ class BillEditorActivity : AppCompatActivity() {
             binding.typeSelect.selectedItemPosition,
             binding.titleInput.text.toString().trim(),
             binding.balanceInput.text.toString().trim().toFloat(),
+            reserved
         )
         viewModel.uploadBill(bill)
         CompletedDialog("Счёт загружен"){
             onBackPressed()
-        }
+        }.show(supportFragmentManager, "completed")
     }
 }

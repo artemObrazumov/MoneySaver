@@ -60,7 +60,7 @@ import java.util.*
                 else -> {
                     CompletedDialog("Операция загружена"){
                         onBackPressed()
-                    }
+                    }.show(supportFragmentManager, "completed")
                 }
             }
         }
@@ -141,12 +141,12 @@ import java.util.*
                     null,
                     selectedCategory!!.isExpenses!!,
                     binding.etNameTrans.text.toString(),
-                    binding.descriptionInput.text.toString(),
+                    "",
                     getTransactionDate(),
                     selectedCategory!!.id!!.toInt(),
                     selectedBillId!!.toInt(),
                     binding.etMoney.text.toString().toFloat() * moneyKoeff(),
-                    false
+                    binding.isPlanned.isChecked
                 )
             )
         }

@@ -4,6 +4,7 @@ import android.util.Log
 import com.borsch_team.moneysaver.data.databases.MoneySaverDatabase
 import com.borsch_team.moneysaver.data.models.*
 import com.google.firebase.auth.FirebaseAuth
+import java.lang.Math.abs
 
 class API(private val database: MoneySaverDatabase) {
     suspend fun getBills() =
@@ -21,6 +22,22 @@ class API(private val database: MoneySaverDatabase) {
 
     suspend fun upsertTransaction(transaction: MoneyTransaction) {
         database.transactionDao().upsert(transaction)
+        payFromBill(transaction)
+        if (transaction.isPlanned!!) {
+            addReservedMoney(transaction)
+        }
+    }
+
+    private suspend fun addReservedMoney(transaction: MoneyTransaction) {
+        val bill = getBill(transaction.idBill!!.toLong())
+        bill.reservedMoney = bill.reservedMoney?.plus(transaction.money!! * -1)
+        upsertBill(bill)
+    }
+
+    private suspend fun payFromBill(transaction: MoneyTransaction) {
+        val bill = getBill(transaction.idBill!!.toLong())
+        bill.balance = bill.balance?.plus(transaction.money!!)
+        upsertBill(bill)
     }
 
     suspend fun getExpensesCategory() =
@@ -100,6 +117,39 @@ class API(private val database: MoneySaverDatabase) {
         endTimestamp: Long
     ): List<TransactionAndCategory> =
         database.transactionDao().getIncomeTransactions(billID, startTimestamp, endTimestamp)
+
+    suspend fun removeBill(billId: Long) {
+        database.billDao().delete(billId)
+        database.transactionDao().deleteBillTransactions(billId)
+    }
+
+    suspend fun getPlannedTransactions(): List<TransactionAndCategory> =
+        database.transactionDao().getPlannedTransactions()
+
+    suspend fun removeTransaction(transaction: MoneyTransaction) {
+        database.transactionDao().delete(transaction.id!!)
+        cancelTransaction(transaction)
+    }
+
+    private suspend fun cancelTransaction(transaction: MoneyTransaction) {
+        putBackToBill(transaction)
+        if (transaction.isPlanned!!) {
+            //if (transaction.)
+            decreaseReserved(transaction)
+        }
+    }
+
+    private suspend fun decreaseReserved(transaction: MoneyTransaction) {
+        val bill = getBill(transaction.idBill!!.toLong())
+        bill.reservedMoney = bill.reservedMoney?.plus(transaction.money!!)
+        upsertBill(bill)
+    }
+
+    private suspend fun putBackToBill(transaction: MoneyTransaction) {
+        val bill = getBill(transaction.idBill!!.toLong())
+        bill.balance = bill.balance?.minus(transaction.money!!)
+        upsertBill(bill)
+    }
 
     suspend fun getAllIncomesTransactions(
         startTimestamp: Long,

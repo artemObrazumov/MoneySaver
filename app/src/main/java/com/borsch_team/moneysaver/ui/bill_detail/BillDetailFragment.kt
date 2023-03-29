@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import com.borsch_team.moneysaver.Constants
 import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.data.models.Bill
@@ -18,6 +19,7 @@ class BillDetailFragment(
 ) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentBillDetailBinding
+    private lateinit var viewModel: BillDetailViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,22 +27,34 @@ class BillDetailFragment(
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentBillDetailBinding.inflate(inflater, container, false)
-        binding.name.text = bill.name
-        binding.balance.text = bill.balance.toString()
-        when (bill.idType) {
-            Constants.BILL_TYPE_CARD -> {
-                binding.cardBackground.background = ContextCompat
-                    .getDrawable(binding.root.context, R.drawable.bill_background_card_flat)
-            }
-            Constants.BILL_TYPE_BANKNOTES -> {
-                binding.cardBackground.background = ContextCompat
-                    .getDrawable(binding.root.context, R.drawable.bill_background_banknotes_flat)
+        viewModel = ViewModelProvider(this)[BillDetailViewModel::class.java]
+        viewModel.bill.observe(viewLifecycleOwner) { updatedBill ->
+            if (updatedBill != null) {
+                binding.name.text = updatedBill.name
+                binding.balance.text = updatedBill.balance.toString()
+                when (updatedBill.idType) {
+                    Constants.BILL_TYPE_CARD -> {
+                        binding.cardBackground.background = ContextCompat
+                            .getDrawable(binding.root.context, R.drawable.bill_background_card_flat)
+                    }
+                    Constants.BILL_TYPE_BANKNOTES -> {
+                        binding.cardBackground.background = ContextCompat
+                            .getDrawable(binding.root.context, R.drawable.bill_background_banknotes_flat)
+                    }
+                }
+            } else {
+                dismiss()
             }
         }
         binding.edit.setOnClickListener {
             onEditClicked(bill.id!!)
         }
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadBill(bill.id!!)
     }
 
 }

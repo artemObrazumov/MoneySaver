@@ -27,7 +27,8 @@ class BillsAdapter(
             bill: Bill,
             onBillClciked: (bill: Bill) -> Unit
         ) {
-            binding.balance.text = "${bill.balance.toString()} Р"
+            binding.balance.text = "${bill.balance.toString()} ₽"
+            binding.reserved.text = "Резерв: ${bill.reservedMoney.toString()} ₽"
             binding.title.text = bill.name
             when (bill.idType) {
                 Constants.BILL_TYPE_CARD -> {

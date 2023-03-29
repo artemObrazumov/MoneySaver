@@ -11,4 +11,5 @@ data class Bill(
     @ColumnInfo(name = "idType")var idType: Int?,
     @ColumnInfo(name = "name") var name: String?,
     @ColumnInfo(name = "balance") var balance: Float?,
+    @ColumnInfo(name = "reservedMoney") var reservedMoney: Float?,
 )

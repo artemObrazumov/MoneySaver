@@ -44,4 +44,10 @@ interface TransactionDao {
 
     @Query("DELETE FROM moneyTransaction WHERE transactionId = :id")
     suspend fun delete(id: Long)
+
+    @Query("DELETE FROM moneyTransaction WHERE idBill = :billId")
+    fun deleteBillTransactions(billId: Long)
+
+    @Query("SELECT * FROM moneyTransaction WHERE isPlanned = 1")
+    suspend fun getPlannedTransactions(): List<TransactionAndCategory>
 }

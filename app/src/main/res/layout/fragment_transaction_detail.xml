@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingBottom="18dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
@@ -20,7 +21,7 @@
             android:id="@+id/tv_trans_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="40dp"
             android:gravity="center"
             android:text="Название транзакции"
             android:textColor="@color/black"
@@ -33,7 +34,7 @@
             android:id="@+id/tv_trans_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="4dp"
             android:text="Название категории"
             android:textColor="#1E1E1E"
             app:layout_constraintEnd_toEndOf="@+id/tv_trans_name"
@@ -44,10 +45,10 @@
             android:id="@+id/tv_trans_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="4dp"
             android:text="456, 34 руб."
-            android:textColor="#000000"
-            android:textSize="34sp"
+            android:textColor="@color/incomes"
+            android:textSize="32sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/tv_trans_category"
             app:layout_constraintStart_toStartOf="@+id/tv_trans_category"
@@ -57,12 +58,21 @@
             android:id="@+id/tv_trans_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="4dp"
             android:text="23 марта, 13:47"
             android:textColor="#1E1E1E"
             app:layout_constraintEnd_toEndOf="@+id/tv_trans_money"
             app:layout_constraintStart_toStartOf="@+id/tv_trans_money"
             app:layout_constraintTop_toBottomOf="@+id/tv_trans_money" />
+
+        <TextView
+            android:id="@+id/deleteButton"
+            style="@style/CustomButtonRed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/deleteTransaction"
+            app:layout_constraintTop_toBottomOf="@+id/tv_trans_date"
+            android:layout_marginTop="12dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -11,10 +11,12 @@ import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.data.models.MoneyTransaction
 import com.borsch_team.moneysaver.data.models.TransactionAndCategory
 import com.borsch_team.moneysaver.databinding.TransactionItemBinding
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.math.abs
 
-class TransactionTypeAdapter(private val clickedItem: (item: TransactionAndCategory) -> Unit):
-    RecyclerView.Adapter<TransactionTypeAdapter.ViewHolder>() {
+class TransactionPlannedAdapter(private val clickedItem: (item: TransactionAndCategory) -> Unit):
+    RecyclerView.Adapter<TransactionPlannedAdapter.ViewHolder>() {
 
     private var dataList = emptyList<TransactionAndCategory>()
 
@@ -32,7 +34,7 @@ class TransactionTypeAdapter(private val clickedItem: (item: TransactionAndCateg
         @SuppressLint("SetTextI18n")
         fun bind(moneyTransaction: TransactionAndCategory) {
             binding.tvName.text = moneyTransaction.transaction.name
-            binding.tvCategory.text = moneyTransaction.category.name
+            binding.tvCategory.text = "Запланировано на ${formattedDate(moneyTransaction.transaction.date!!)}"
             if(moneyTransaction.transaction.isExpenses!!){
                 binding.tvMoney.text = "- ${abs(moneyTransaction.transaction.money!!)} ₽"
                 binding.tvMoney.setTextColor(Color.BLACK)
@@ -46,6 +48,8 @@ class TransactionTypeAdapter(private val clickedItem: (item: TransactionAndCateg
             ))
             binding.root.setOnClickListener { clickedItem(moneyTransaction) }
         }
+        private fun formattedDate(timeStamp: Long): String =
+            SimpleDateFormat(Constants.TIME_FORMAT_PATTERN, Locale("ru")).format(timeStamp)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
@@ -71,5 +75,6 @@ class TransactionTypeAdapter(private val clickedItem: (item: TransactionAndCateg
         }.toList()
         notifyDataSetChanged()
     }
+
 
 }
