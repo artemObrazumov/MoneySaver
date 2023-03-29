@@ -1,9 +1,12 @@
 package com.borsch_team.moneysaver.ui.transaction_editor
 
+import android.app.DatePickerDialog
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ExperimentalGetImage
 import androidx.lifecycle.ViewModelProvider
@@ -31,6 +34,7 @@ import java.util.*
     private var selectedBillId: Long? = null
     private lateinit var billsAdapter: BillsAdapter
     private var transactionTime: Long? = null
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTransactionEditorBinding.inflate(layoutInflater)
@@ -97,8 +101,29 @@ import java.util.*
         onTimeSelected(Calendar.getInstance().timeInMillis)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun selectTime() {
+        val cal = android.icu.util.Calendar.getInstance()
 
+        val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            cal.set(android.icu.util.Calendar.YEAR, year)
+            cal.set(android.icu.util.Calendar.MONTH, monthOfYear)
+            cal.set(android.icu.util.Calendar.DAY_OF_MONTH, dayOfMonth)
+            cal.set(java.util.Calendar.HOUR_OF_DAY, cal.getActualMaximum(java.util.Calendar.HOUR_OF_DAY))
+            cal.set(java.util.Calendar.MINUTE, cal.getActualMaximum(java.util.Calendar.MINUTE))
+            cal.set(java.util.Calendar.SECOND, cal.getActualMaximum(java.util.Calendar.SECOND))
+            cal.set(java.util.Calendar.MILLISECOND, cal.getActualMaximum(java.util.Calendar.MILLISECOND))
+
+            val myFormat = "dd.MM.yyyy" // mention the format you need
+            val sdf = android.icu.text.SimpleDateFormat(myFormat, Locale.US)
+            //binding.tvDateOt.text = sdf.format(cal.time)
+            onTimeSelected(cal.time.time)
+        }
+
+        DatePickerDialog(this, dateSetListener,
+            cal.get(android.icu.util.Calendar.YEAR),
+            cal.get(android.icu.util.Calendar.MONTH),
+            cal.get(android.icu.util.Calendar.DAY_OF_MONTH)).show()
     }
 
     private fun onTimeSelected(time: Long) {
