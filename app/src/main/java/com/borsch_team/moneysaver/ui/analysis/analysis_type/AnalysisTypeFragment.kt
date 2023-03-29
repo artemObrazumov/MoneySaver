@@ -1,5 +1,6 @@
 package com.borsch_team.moneysaver.ui.analysis.analysis_type
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.borsch_team.moneysaver.R
-import com.borsch_team.moneysaver.data.models.MoneyTransaction
 import com.borsch_team.moneysaver.databinding.FragmentAnalysisTypeBinding
 import com.faskn.lib.PieChart
 import com.faskn.lib.Slice
@@ -32,29 +32,42 @@ class AnalysisTypeFragment(private val isExpenses: Boolean,
         binding = FragmentAnalysisTypeBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[AnalysisTypeViewModel::class.java]
 
+
+        return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
         if(isExpenses){
             viewModel.arrExpenses.observe(requireActivity()){
-                initPie(it)
+                if (it.size != 0){
+                    initPie(it)
+                }else{
+                    binding.tvNoData.visibility = View.VISIBLE
+                    binding.clickablePieChart.visibility = View.INVISIBLE
+                }
             }
             viewModel.getExpenses(startTimestamp, endTimestamp)
         }else{
             viewModel.arrIncomes.observe(requireActivity()){
-                initPie(it)
+                if (it.size != 0){
+                    initPie(it)
+                }else{
+                    binding.tvNoData.visibility = View.VISIBLE
+                    binding.clickablePieChart.visibility = View.INVISIBLE
+                }
             }
             viewModel.getIncomes(startTimestamp, endTimestamp)
         }
-
-
-
-        return binding.root
     }
+
     private fun initPie(arrData: ArrayList<Slice>){
         pieChart = buildChart {
             slices {arrData}
             sliceWidth { 80f }
             sliceStartPoint { 0f }
             clickListener { angle, index ->
-                Toast.makeText(requireContext(), index.toString(), Toast.LENGTH_SHORT).show()
+                //Toast.makeText(requireContext(), index.toString(), Toast.LENGTH_SHORT).show()
             }
         }
         binding.clickablePieChart.setPieChart(pieChart)

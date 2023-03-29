@@ -11,6 +11,7 @@ import com.faskn.lib.PieChart
 import com.faskn.lib.Slice
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.Math.abs
 
 class AnalysisTypeViewModel: ViewModel() {
     var arrExpenses: MutableLiveData<ArrayList<Slice>> = MutableLiveData()
@@ -28,10 +29,11 @@ class AnalysisTypeViewModel: ViewModel() {
                 hashMapData[it.category.name!!] = hashMapData[it.category.name!!]!! + it.transaction.money!!
             }
         }
+
         val arrData = ArrayList<Slice>()
         hashMapData.forEach {
             arrData.add(Slice(
-                it.value,
+                kotlin.math.abs(it.value),
                 Constants.getColorResource(hashMapCategory[it.key]!!),
                 it.key
             ))

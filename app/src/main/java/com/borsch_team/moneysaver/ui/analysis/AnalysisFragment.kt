@@ -118,5 +118,6 @@ class AnalysisFragment : Fragment() {
     private fun initializePager() {
         pagerAdapter = AnalysisPagerAdapter(requireActivity(), startTimestamp, endTimestamp)
         binding.transactionsPagerAdapter.adapter = pagerAdapter
+        binding.transactionsPagerAdapter.isSaveFromParentEnabled = false
     }
 }
