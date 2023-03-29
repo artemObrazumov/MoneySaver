@@ -27,7 +27,7 @@ class ProfileFragment : Fragment() {
 
         binding.name.text = FirebaseAuth.getInstance().currentUser?.email.toString()
 
-        binding.avatar.setOnClickListener {
+        binding.signIn.setOnClickListener {
             startActivity(Intent(context, AuthSignInActivity::class.java))
         }
 

@@ -1,5 +1,6 @@
 package com.borsch_team.moneysaver.ui.bill_detail
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,18 +10,21 @@ import androidx.lifecycle.ViewModelProvider
 import com.borsch_team.moneysaver.Constants
 import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.data.models.Bill
+import com.borsch_team.moneysaver.data.models.TimeRange
 import com.borsch_team.moneysaver.databinding.FragmentBillDetailBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
 class BillDetailFragment(
     private val bill: Bill,
+    private val timeRange: TimeRange,
     private val onEditClicked: (id: Long) -> Unit
 ) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentBillDetailBinding
     private lateinit var viewModel: BillDetailViewModel
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,6 +50,11 @@ class BillDetailFragment(
                 dismiss()
             }
         }
+        viewModel.monthStats.observe(viewLifecycleOwner) {
+            binding.monthExpenses.text = "${it.monthExpenses} ₽"
+            binding.monthIncomes.text = "${it.monthIncomes} ₽"
+        }
+        viewModel.getBillMonthStats(timeRange, bill.id!!)
         binding.edit.setOnClickListener {
             onEditClicked(bill.id!!)
         }

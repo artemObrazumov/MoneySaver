@@ -15,4 +15,5 @@
     <color name="cardBlueDark">#78A8DD</color>
     <color name="expenses">#FF4242</color>
     <color name="incomes">#3AD886</color>
+    <color name="separator">#C6C6C6</color>
 </resources>

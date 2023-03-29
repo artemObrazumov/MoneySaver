@@ -29,12 +29,11 @@ class TransactionPlannedAdapter(private val clickedItem: (item: TransactionAndCa
     class ViewHolder(
         private val binding: TransactionItemBinding,
         private val clickedItem: (model: TransactionAndCategory) -> Unit
-    ):
-        RecyclerView.ViewHolder(binding.root) {
+    ): RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind(moneyTransaction: TransactionAndCategory) {
             binding.tvName.text = moneyTransaction.transaction.name
-            binding.tvCategory.text = "Запланировано на ${formattedDate(moneyTransaction.transaction.date!!)}"
+            binding.tvCategory.text = "Запланировано на\n${formattedDate(moneyTransaction.transaction.date!!)}"
             if(moneyTransaction.transaction.isExpenses!!){
                 binding.tvMoney.text = "- ${abs(moneyTransaction.transaction.money!!)} ₽"
                 binding.tvMoney.setTextColor(Color.BLACK)

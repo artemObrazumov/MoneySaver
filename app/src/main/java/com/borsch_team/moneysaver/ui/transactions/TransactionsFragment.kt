@@ -52,7 +52,7 @@ class TransactionsFragment : Fragment() {
         binding = FragmentTransactionsBinding.inflate(inflater, container, false)
         binding.billsPager.setPageTransformer(MarginPageTransformer(40))
         adapter = BillsAdapter(emptyList(), { bill ->
-            val fragment = BillDetailFragment(bill) {
+            val fragment = BillDetailFragment(bill, timeRange) {
                 editBill(it)
             }
             fragment.show(childFragmentManager, "bill_info: ${bill.id}")

@@ -8,6 +8,7 @@ import com.borsch_team.moneysaver.data.models.Bill
 import com.borsch_team.moneysaver.data.models.TimeRange
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 
 class BillDetailViewModel: ViewModel() {
     val monthStats: MutableLiveData<BillMonthStats> = MutableLiveData()
@@ -15,7 +16,19 @@ class BillDetailViewModel: ViewModel() {
 
     fun getBillMonthStats(timeRange: TimeRange, billID: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            // TODO: Bill month stats
+            var incomesSum = 0f
+            App.api.getIncomesTransactions(billID,
+                timeRange.startTimestamp, timeRange.endTimestamp)
+                .forEach {
+                    incomesSum += abs(it.transaction.money!!)
+                }
+            var expensesSum = 0f
+            App.api.getExpensesTransactions(billID,
+                timeRange.startTimestamp, timeRange.endTimestamp)
+                .forEach {
+                    expensesSum += abs(it.transaction.money!!)
+                }
+            monthStats.postValue(BillMonthStats(expensesSum, incomesSum))
         }
     }
 
