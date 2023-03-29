@@ -8,11 +8,13 @@ import com.borsch_team.moneysaver.ui.analysis.analysis_type.AnalysisTypeFragment
 import com.borsch_team.moneysaver.ui.transactions.transaction_type.TransactionTypeFragment
 
 class AnalysisPagerAdapter(
-    fragmentActivity: FragmentActivity
+    fragmentActivity: FragmentActivity,
+    startTimeStamp: Long,
+    endTimeStamp: Long,
 ): FragmentStateAdapter(fragmentActivity) {
 
-    private val expensesFragment = AnalysisTypeFragment(true)
-    private val incomesFragment = AnalysisTypeFragment(false)
+    private val expensesFragment = AnalysisTypeFragment(true, startTimeStamp, endTimeStamp)
+    private val incomesFragment = AnalysisTypeFragment(false, startTimeStamp, endTimeStamp)
 
     /*fun updateAdapter(
         billID: Long,

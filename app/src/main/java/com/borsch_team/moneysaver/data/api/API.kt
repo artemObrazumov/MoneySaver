@@ -100,4 +100,16 @@ class API(private val database: MoneySaverDatabase) {
         endTimestamp: Long
     ): List<TransactionAndCategory> =
         database.transactionDao().getIncomeTransactions(billID, startTimestamp, endTimestamp)
+
+    suspend fun getAllIncomesTransactions(
+        startTimestamp: Long,
+        endTimestamp: Long
+    ): List<TransactionAndCategory> =
+        database.transactionDao().getAllIncomeTransactions(startTimestamp, endTimestamp)
+
+    suspend fun getAllExpensesTransactions(
+        startTimestamp: Long,
+        endTimestamp: Long
+    ): List<TransactionAndCategory> =
+        database.transactionDao().getAllExpensesTransactions(startTimestamp, endTimestamp)
 }

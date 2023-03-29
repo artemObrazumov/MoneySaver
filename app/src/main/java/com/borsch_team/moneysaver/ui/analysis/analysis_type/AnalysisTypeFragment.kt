@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.borsch_team.moneysaver.R
@@ -15,7 +16,9 @@ import com.faskn.lib.buildChart
 import kotlin.random.Random
 
 
-class AnalysisTypeFragment(private val isExpenses: Boolean): Fragment() {
+class AnalysisTypeFragment(private val isExpenses: Boolean,
+                           private val startTimestamp: Long,
+                           private val endTimestamp: Long): Fragment() {
 
     private lateinit var binding: FragmentAnalysisTypeBinding
     private lateinit var viewModel: AnalysisTypeViewModel
@@ -30,20 +33,28 @@ class AnalysisTypeFragment(private val isExpenses: Boolean): Fragment() {
         viewModel = ViewModelProvider(this)[AnalysisTypeViewModel::class.java]
 
         if(isExpenses){
-            initPie()
+            viewModel.arrExpenses.observe(requireActivity()){
+                initPie(it)
+            }
+            viewModel.getExpenses(startTimestamp, endTimestamp)
         }else{
-            initPie()
+            viewModel.arrIncomes.observe(requireActivity()){
+                initPie(it)
+            }
+            viewModel.getIncomes(startTimestamp, endTimestamp)
         }
+
+
 
         return binding.root
     }
-    private fun initPie(){
+    private fun initPie(arrData: ArrayList<Slice>){
         pieChart = buildChart {
-            slices {initDataForPie()}
+            slices {arrData}
             sliceWidth { 80f }
             sliceStartPoint { 0f }
             clickListener { angle, index ->
-                // ...
+                Toast.makeText(requireContext(), index.toString(), Toast.LENGTH_SHORT).show()
             }
         }
         binding.clickablePieChart.setPieChart(pieChart)

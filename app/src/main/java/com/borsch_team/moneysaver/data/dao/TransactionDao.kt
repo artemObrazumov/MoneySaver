@@ -15,8 +15,14 @@ interface TransactionDao {
     @Query("SELECT * FROM moneyTransaction WHERE isExpenses is 0 AND isPlanned = 0 AND idBill = :bill AND date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
     suspend fun getIncomeTransactions(bill: Long, startTimeStamp: Long, endTimeStamp: Long): List<TransactionAndCategory>
 
+    @Query("SELECT * FROM moneyTransaction WHERE isExpenses is 0 AND isPlanned = 0 AND date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
+    suspend fun getAllIncomeTransactions(startTimeStamp: Long, endTimeStamp: Long): List<TransactionAndCategory>
+
     @Query("SELECT * FROM moneyTransaction WHERE isExpenses is 1 AND isPlanned = 0 AND idBill = :bill AND date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
     suspend fun getExpensesTransactions(bill: Long, startTimeStamp: Long, endTimeStamp: Long): List<TransactionAndCategory>
+
+    @Query("SELECT * FROM moneyTransaction WHERE isExpenses is 1 AND isPlanned = 0 AND date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
+    suspend fun getAllExpensesTransactions(startTimeStamp: Long, endTimeStamp: Long): List<TransactionAndCategory>
 
     @Query("SELECT * FROM moneyTransaction WHERE transactionId = :id")
     suspend fun getTransaction(id: Long): MoneyTransaction

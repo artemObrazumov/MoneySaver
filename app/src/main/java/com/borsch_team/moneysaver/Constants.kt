@@ -39,5 +39,27 @@ class Constants {
                 18L -> R.drawable.booklet_svgrepo_com
                 else -> R.drawable.ellipsis_6ngbbouw69zs
             }
+        fun getColorResource(categoryId: Long): Int =
+            when (categoryId) {
+                1L -> R.color.products
+                2L -> R.color.clothes
+                3L -> R.color.for_home
+                4L -> R.color.hobby
+                5L -> R.color.subscribe
+                6L -> R.color.pets
+                7L -> R.color.traunsport
+                8L -> R.color.bills
+                9L -> R.color.health
+                10L -> R.color.restauran
+                11L -> R.color.perevodi
+                12L -> R.color.get_cash
+                13L -> R.color.other_expenses
+                14L -> R.color.education
+                15L -> R.color.earn
+                16L -> R.color.perevodi
+                17L -> R.color.get_cash
+                18L -> R.color.other_earns
+                else -> R.color.other_category
+            }
     }
 }
