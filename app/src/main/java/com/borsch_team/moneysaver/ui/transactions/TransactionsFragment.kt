@@ -33,6 +33,15 @@ class TransactionsFragment : Fragment() {
     private lateinit var selectedBillID: String
     private lateinit var timeRange: TimeRange
     private var childFragmentsInitialized = false
+    private val billChangeCallback = object : ViewPager2.OnPageChangeCallback(){
+        override fun onPageSelected(position: Int) {
+            try {
+                if (position < adapter.itemCount) {
+                    onBillChanged(adapter.getBill(position))
+                }
+            } catch (_: java.lang.Exception) {}
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,22 +60,14 @@ class TransactionsFragment : Fragment() {
             startActivity(Intent(requireContext(), BillEditorActivity::class.java))
         })
         binding.billsPager.adapter = adapter
-        binding.billsPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
-            override fun onPageSelected(position: Int) {
-                try {
-                    if (position < adapter.itemCount) {
-                       onBillChanged(adapter.getBill(position))
-                    }
-                } catch (_: java.lang.Exception) {}
-            }
-        })
+        binding.billsPager.registerOnPageChangeCallback(billChangeCallback)
         TabLayoutMediator(binding.tabDots, binding.billsPager, true) { _, _ -> }.attach()
         findCurrentTimeRange()
         initializePager()
         initializeTabs()
         viewModel.bills.observe(viewLifecycleOwner) { bills ->
             adapter.updateDataset(bills)
-            if (bills.isNotEmpty() && binding.billsPager.currentItem < adapter.itemCount) {
+            if (bills.isNotEmpty() && binding.billsPager.currentItem < adapter.itemCount-1) {
                 onBillChanged(adapter.getBill(binding.billsPager.currentItem))
             }
         }
@@ -76,11 +77,11 @@ class TransactionsFragment : Fragment() {
     }
 
     private fun initializePager() {
-        binding.transactionsPagerAdapter.offscreenPageLimit = 2
         pagerAdapter = TransactionPagerAdapter(requireActivity()) {
             childFragmentsInitialized = true
         }
         viewModel.getBills()
+        binding.transactionsPagerAdapter.isSaveFromParentEnabled = false
         binding.transactionsPagerAdapter.adapter = pagerAdapter
     }
 
@@ -119,9 +120,12 @@ class TransactionsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (childFragmentsInitialized) {
-            viewModel.getBills()
-        }
+        viewModel.getBills()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        binding.billsPager.unregisterOnPageChangeCallback(billChangeCallback)
     }
 
     private fun initializeTabs() {

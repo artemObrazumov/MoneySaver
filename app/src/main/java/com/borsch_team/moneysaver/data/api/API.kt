@@ -21,9 +21,16 @@ class API(private val database: MoneySaverDatabase) {
 
     suspend fun upsertTransaction(transaction: MoneyTransaction) {
         database.transactionDao().upsert(transaction)
-        if (!transaction.isPlanned!!) {
-            payFromBill(transaction)
+        payFromBill(transaction)
+        if (transaction.isPlanned!!) {
+            addReservedMoney(transaction)
         }
+    }
+
+    private suspend fun addReservedMoney(transaction: MoneyTransaction) {
+        val bill = getBill(transaction.idBill!!.toLong())
+        bill.reservedMoney = bill.reservedMoney?.plus(transaction.money!! * -1)
+        upsertBill(bill)
     }
 
     private suspend fun payFromBill(transaction: MoneyTransaction) {
@@ -87,4 +94,12 @@ class API(private val database: MoneySaverDatabase) {
         endTimestamp: Long
     ): List<TransactionAndCategory> =
         database.transactionDao().getIncomeTransactions(billID, startTimestamp, endTimestamp)
+
+    suspend fun removeBill(billId: Long) {
+        database.billDao().delete(billId)
+        database.transactionDao().deleteBillTransactions(billId)
+    }
+
+    suspend fun getPlannedTransactions(): List<TransactionAndCategory> =
+        database.transactionDao().getPlannedTransactions()
 }

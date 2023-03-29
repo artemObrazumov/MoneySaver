@@ -19,13 +19,13 @@ class TransactionPagerAdapter(
     private var expensesFragmentInitialized = false
     private var incomesFragmentInitialized = false
 
-    private val expensesFragment = TransactionTypeFragment(true) {
+    private var expensesFragment = TransactionTypeFragment(true) {
         expensesFragmentInitialized = true
         if (incomesFragmentInitialized) {
             onCreated()
         }
     }
-    private val incomesFragment = TransactionTypeFragment(false) {
+    private var incomesFragment = TransactionTypeFragment(false) {
         incomesFragmentInitialized = true
         if (expensesFragmentInitialized) {
             onCreated()

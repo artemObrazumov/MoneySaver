@@ -72,6 +72,6 @@ class TransactionTypeFragment(
             } else {
                 viewModel.loadSpecifiedIncomes(billID, timeRange)
             }
-        } catch (_: Exception) {}
+        } catch (e: Exception) {e.printStackTrace()}
     }
 }

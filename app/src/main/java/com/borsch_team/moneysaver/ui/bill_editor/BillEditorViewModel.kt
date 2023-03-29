@@ -22,4 +22,10 @@ class BillEditorViewModel: ViewModel() {
             App.api.upsertBill(bill)
         }
     }
+
+    fun removeBill(billId: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            App.api.removeBill(billId)
+        }
+    }
 }

@@ -12,6 +12,7 @@ import com.borsch_team.moneysaver.data.models.Bill
 import com.borsch_team.moneysaver.databinding.ActivityBillEditorBinding
 import com.borsch_team.moneysaver.ui.adapter.BillTypeAdapter
 import com.borsch_team.moneysaver.ui.dialog.CompletedDialog
+import com.borsch_team.moneysaver.ui.dialog.WarningDialog
 
 class BillEditorActivity : AppCompatActivity() {
 
@@ -27,6 +28,14 @@ class BillEditorActivity : AppCompatActivity() {
             binding.titleInput.setText(bill.name)
             binding.typeSelect.setSelection(bill.idType!!)
             binding.balanceInput.setText(bill.balance.toString())
+        }
+        binding.remove.setOnClickListener {
+            WarningDialog("При удалении счёта удалятся и все операции, связанные с ним") {
+                viewModel.removeBill(billId!!)
+                CompletedDialog("Счёт удален") {
+                    onBackPressed()
+                }.show(supportFragmentManager, "completed")
+            }.show(supportFragmentManager, "warning")
         }
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
@@ -79,6 +88,7 @@ class BillEditorActivity : AppCompatActivity() {
             binding.typeSelect.selectedItemPosition,
             binding.titleInput.text.toString().trim(),
             binding.balanceInput.text.toString().trim().toFloat(),
+            0f
         )
         viewModel.uploadBill(bill)
         CompletedDialog("Счёт загружен"){
