@@ -27,14 +27,17 @@ class ProfileFragment : Fragment() {
 
         binding.name.text = FirebaseAuth.getInstance().currentUser?.email.toString()
 
-        binding.signIn.setOnClickListener {
-            startActivity(Intent(context, AuthSignInActivity::class.java))
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            binding.accountLastSync.visibility = View.GONE
         }
 
-        binding.imgLogout.setOnClickListener {
-            Firebase.auth.signOut()
+        binding.accountControl.setOnClickListener {
+            if (FirebaseAuth.getInstance().currentUser == null) {
+                startActivity(Intent(context, AuthSignInActivity::class.java))
+            } else {
+                Firebase.auth.signOut()
+            }
         }
-
         return binding.root
     }
 }

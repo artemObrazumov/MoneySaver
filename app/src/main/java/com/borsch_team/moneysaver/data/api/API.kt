@@ -112,14 +112,18 @@ class API(private val database: MoneySaverDatabase) {
     private suspend fun cancelTransaction(transaction: MoneyTransaction) {
         putBackToBill(transaction)
         if (transaction.isPlanned!!) {
-            //if (transaction.)
             decreaseReserved(transaction)
         }
     }
 
     private suspend fun decreaseReserved(transaction: MoneyTransaction) {
         val bill = getBill(transaction.idBill!!.toLong())
-        bill.reservedMoney = bill.reservedMoney?.plus(transaction.money!!)
+        if (transaction.isExpenses!!) {
+            bill.reservedMoney = bill.reservedMoney?.plus(transaction.money!!)
+        } else {
+            bill.reservedMoney = bill.reservedMoney?.minus(transaction.money!!)
+            bill.balance = bill.balance?.plus(transaction.money!!)
+        }
         upsertBill(bill)
     }
 

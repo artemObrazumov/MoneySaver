@@ -33,4 +33,7 @@
     <string name="deleteTransaction">Удалить операцию</string>
     <string name="isPlannedTransaction">Запланированная операция</string>
     <string name="enter_account">Войти в аккаунт</string>
+    <string name="light_theme">Светлая</string>
+    <string name="dark_theme">Темная</string>
+    <string name="oled_theme">OLED</string>
 </resources>
