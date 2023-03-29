@@ -1,13 +1,14 @@
 package com.borsch_team.moneysaver.ui.analysis.analysis_type
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.borsch_team.moneysaver.R
-import com.borsch_team.moneysaver.data.models.MoneyTransaction
 import com.borsch_team.moneysaver.databinding.FragmentAnalysisTypeBinding
 import com.faskn.lib.PieChart
 import com.faskn.lib.Slice
@@ -15,7 +16,9 @@ import com.faskn.lib.buildChart
 import kotlin.random.Random
 
 
-class AnalysisTypeFragment(private val isExpenses: Boolean): Fragment() {
+class AnalysisTypeFragment(private val isExpenses: Boolean,
+                           private val startTimestamp: Long,
+                           private val endTimestamp: Long): Fragment() {
 
     private lateinit var binding: FragmentAnalysisTypeBinding
     private lateinit var viewModel: AnalysisTypeViewModel
@@ -29,21 +32,42 @@ class AnalysisTypeFragment(private val isExpenses: Boolean): Fragment() {
         binding = FragmentAnalysisTypeBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[AnalysisTypeViewModel::class.java]
 
-        if(isExpenses){
-            initPie()
-        }else{
-            initPie()
-        }
 
         return binding.root
     }
-    private fun initPie(){
+
+    override fun onResume() {
+        super.onResume()
+        if(isExpenses){
+            viewModel.arrExpenses.observe(requireActivity()){
+                if (it.size != 0){
+                    initPie(it)
+                }else{
+                    binding.tvNoData.visibility = View.VISIBLE
+                    binding.clickablePieChart.visibility = View.INVISIBLE
+                }
+            }
+            viewModel.getExpenses(startTimestamp, endTimestamp)
+        }else{
+            viewModel.arrIncomes.observe(requireActivity()){
+                if (it.size != 0){
+                    initPie(it)
+                }else{
+                    binding.tvNoData.visibility = View.VISIBLE
+                    binding.clickablePieChart.visibility = View.INVISIBLE
+                }
+            }
+            viewModel.getIncomes(startTimestamp, endTimestamp)
+        }
+    }
+
+    private fun initPie(arrData: ArrayList<Slice>){
         pieChart = buildChart {
-            slices {initDataForPie()}
+            slices {arrData}
             sliceWidth { 80f }
             sliceStartPoint { 0f }
             clickListener { angle, index ->
-                // ...
+                //Toast.makeText(requireContext(), index.toString(), Toast.LENGTH_SHORT).show()
             }
         }
         binding.clickablePieChart.setPieChart(pieChart)

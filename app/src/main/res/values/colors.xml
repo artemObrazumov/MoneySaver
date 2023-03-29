@@ -14,6 +14,25 @@
     <color name="cardBlueLight">#225D9F</color>
     <color name="cardBlueDark">#78A8DD</color>
     <color name="expenses">#FF4242</color>
+    <color name="incomes">#60FF75</color>
+
+    <color name="products">#E09A5F</color>
+    <color name="clothes">#C65C5C</color>
+    <color name="for_home">#F5CF88</color>
+    <color name="hobby">#77C2AE</color>
+    <color name="subscribe">#77B3D5</color>
+    <color name="health">#21D0C3</color>
+    <color name="restauran">#C18785</color>
+    <color name="perevodi">#77A298</color>
+    <color name="get_cash">#77A298</color>
+    <color name="other_expenses">#E09A5F</color>
+    <color name="education">#866673</color>
+    <color name="traunsport">#D99592</color>
+    <color name="pets">#78C2B1</color>
+    <color name="bills">#DFE0D0</color>
+    <color name="earn">#E09A5F</color>
+    <color name="other_earns">#77C2AE</color>
+    <color name="other_category">#11BAFD</color>
     <color name="incomes">#3AD886</color>
     <color name="separator">#D6D6D6</color>
 </resources>
