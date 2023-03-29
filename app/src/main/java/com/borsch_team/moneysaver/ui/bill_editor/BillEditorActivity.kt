@@ -19,6 +19,7 @@ class BillEditorActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBillEditorBinding
     private lateinit var viewModel: BillEditorViewModel
     private var billId: Long? = 0L
+    private var reserved: Float = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +29,7 @@ class BillEditorActivity : AppCompatActivity() {
             binding.titleInput.setText(bill.name)
             binding.typeSelect.setSelection(bill.idType!!)
             binding.balanceInput.setText(bill.balance.toString())
+            reserved = bill.reservedMoney!!
         }
         binding.remove.setOnClickListener {
             WarningDialog("При удалении счёта удалятся и все операции, связанные с ним") {
@@ -88,7 +90,7 @@ class BillEditorActivity : AppCompatActivity() {
             binding.typeSelect.selectedItemPosition,
             binding.titleInput.text.toString().trim(),
             binding.balanceInput.text.toString().trim().toFloat(),
-            0f
+            reserved
         )
         viewModel.uploadBill(bill)
         CompletedDialog("Счёт загружен"){

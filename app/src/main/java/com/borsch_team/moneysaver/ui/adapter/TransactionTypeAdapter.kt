@@ -63,4 +63,13 @@ class TransactionTypeAdapter(private val clickedItem: (item: TransactionAndCateg
         return dataList.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun removeItem(item: TransactionAndCategory) {
+        val itemId = dataList.indexOf(item)
+        this.dataList = dataList.toMutableList().apply {
+            removeAt(itemId)
+        }.toList()
+        notifyDataSetChanged()
+    }
+
 }

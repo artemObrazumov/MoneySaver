@@ -16,7 +16,8 @@ import com.borsch_team.moneysaver.ui.transaction_detail.TransactionDetailFragmen
 
 class TransactionTypeFragment(
     private val isExpenses: Boolean,
-    private val onCreated: () -> Unit
+    private val onCreated: () -> Unit,
+    private val onTransactionRemoved: () -> Unit
 ): Fragment() {
 
     private lateinit var binding: FragmentTransactionTypeBinding
@@ -35,7 +36,10 @@ class TransactionTypeFragment(
         binding = FragmentTransactionTypeBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[TransactionTypeViewModel::class.java]
         adapter = TransactionTypeAdapter {
-            TransactionDetailFragment(it).show(childFragmentManager, "tag")
+            TransactionDetailFragment(it) {
+                adapter.removeItem(it)
+                onTransactionRemoved()
+            }.show(childFragmentManager, "tag")
         }
 
         if(isExpenses){

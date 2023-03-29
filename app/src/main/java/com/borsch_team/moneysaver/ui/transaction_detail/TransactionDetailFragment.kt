@@ -10,17 +10,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import com.borsch_team.moneysaver.Constants
 import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.data.models.TransactionAndCategory
 import com.borsch_team.moneysaver.databinding.FragmentTransactionDetailBinding
+import com.borsch_team.moneysaver.ui.dialog.CompletedDialog
+import com.borsch_team.moneysaver.ui.dialog.WarningDialog
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlin.math.abs
 
-class TransactionDetailFragment(private val data: TransactionAndCategory) : BottomSheetDialogFragment() {
+class TransactionDetailFragment(
+    private val data: TransactionAndCategory,
+    private val onTransactionDeleted: () -> Unit
+    ) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentTransactionDetailBinding
+    private lateinit var viewModel: TransactionDetailViewModel
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -28,6 +35,7 @@ class TransactionDetailFragment(private val data: TransactionAndCategory) : Bott
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewModel = ViewModelProvider(this) [TransactionDetailViewModel::class.java]
         binding = FragmentTransactionDetailBinding.inflate(layoutInflater)
         binding.tvTransName.text = data.transaction.name
         binding.avatar.setImageDrawable(
@@ -40,6 +48,15 @@ class TransactionDetailFragment(private val data: TransactionAndCategory) : Bott
             binding.tvTransMoney.setTextColor(Color.BLACK)
         }else{
             binding.tvTransMoney.text = "+ ${data.transaction.money} ₽"
+        }
+        binding.deleteButton.setOnClickListener {
+            WarningDialog("Вы уверены, что хотите удалить эту операцию?") {
+                viewModel.deleteTransaction(data.transaction)
+                CompletedDialog("Операция удалена") {
+                    dismiss()
+                }.show(childFragmentManager, "completed")
+                onTransactionDeleted()
+            }.show(childFragmentManager, "delete_transaction: ${data.transaction.id}")
         }
         customizeDialogState()
         return binding.root

@@ -4,6 +4,7 @@ import android.util.Log
 import com.borsch_team.moneysaver.data.databases.MoneySaverDatabase
 import com.borsch_team.moneysaver.data.models.*
 import com.google.firebase.auth.FirebaseAuth
+import java.lang.Math.abs
 
 class API(private val database: MoneySaverDatabase) {
     suspend fun getBills() =
@@ -102,4 +103,29 @@ class API(private val database: MoneySaverDatabase) {
 
     suspend fun getPlannedTransactions(): List<TransactionAndCategory> =
         database.transactionDao().getPlannedTransactions()
+
+    suspend fun removeTransaction(transaction: MoneyTransaction) {
+        database.transactionDao().delete(transaction.id!!)
+        cancelTransaction(transaction)
+    }
+
+    private suspend fun cancelTransaction(transaction: MoneyTransaction) {
+        putBackToBill(transaction)
+        if (transaction.isPlanned!!) {
+            //if (transaction.)
+            decreaseReserved(transaction)
+        }
+    }
+
+    private suspend fun decreaseReserved(transaction: MoneyTransaction) {
+        val bill = getBill(transaction.idBill!!.toLong())
+        bill.reservedMoney = bill.reservedMoney?.plus(transaction.money!!)
+        upsertBill(bill)
+    }
+
+    private suspend fun putBackToBill(transaction: MoneyTransaction) {
+        val bill = getBill(transaction.idBill!!.toLong())
+        bill.balance = bill.balance?.minus(transaction.money!!)
+        upsertBill(bill)
+    }
 }

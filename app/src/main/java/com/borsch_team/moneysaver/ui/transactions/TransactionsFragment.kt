@@ -60,7 +60,6 @@ class TransactionsFragment : Fragment() {
             startActivity(Intent(requireContext(), BillEditorActivity::class.java))
         })
         binding.billsPager.adapter = adapter
-        binding.billsPager.registerOnPageChangeCallback(billChangeCallback)
         TabLayoutMediator(binding.tabDots, binding.billsPager, true) { _, _ -> }.attach()
         findCurrentTimeRange()
         initializePager()
@@ -77,8 +76,10 @@ class TransactionsFragment : Fragment() {
     }
 
     private fun initializePager() {
-        pagerAdapter = TransactionPagerAdapter(requireActivity()) {
+        pagerAdapter = TransactionPagerAdapter(requireActivity(), {
             childFragmentsInitialized = true
+        }) {
+            viewModel.getBills()
         }
         viewModel.getBills()
         binding.transactionsPagerAdapter.isSaveFromParentEnabled = false
@@ -121,6 +122,7 @@ class TransactionsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.getBills()
+        binding.billsPager.registerOnPageChangeCallback(billChangeCallback)
     }
 
     override fun onStop() {

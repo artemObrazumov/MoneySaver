@@ -67,4 +67,14 @@ class TransactionPlannedAdapter(private val clickedItem: (item: TransactionAndCa
         return dataList.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun removeItem(item: TransactionAndCategory) {
+        val itemId = dataList.indexOf(item)
+        this.dataList = dataList.toMutableList().apply {
+            removeAt(itemId)
+        }.toList()
+        notifyDataSetChanged()
+    }
+
+
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.borsch_team.moneysaver.App
 import com.borsch_team.moneysaver.data.models.Bill
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class TransactionsViewModel : ViewModel() {
@@ -14,6 +15,7 @@ class TransactionsViewModel : ViewModel() {
 
     fun getBills() {
         viewModelScope.launch(Dispatchers.IO) {
+            delay(500L)
             bills.postValue(App.api.getBills())
         }
     }
