@@ -1,12 +1,13 @@
 package com.borsch_team.moneysaver.ui.profile
 
 import android.content.Intent
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.databinding.FragmentProfileBinding
 import com.borsch_team.moneysaver.ui.auth.sign_in.AuthSignInActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -38,6 +39,12 @@ class ProfileFragment : Fragment() {
                 Firebase.auth.signOut()
             }
         }
+        initializeThemeControls()
         return binding.root
+    }
+
+    private fun initializeThemeControls() {
+        requireActivity().setTheme(R.style.Theme_MoneySaver_Dark)
+        //requireActivity().recreate()
     }
 }
