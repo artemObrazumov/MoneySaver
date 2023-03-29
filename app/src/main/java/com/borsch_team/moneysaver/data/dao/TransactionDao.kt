@@ -1,9 +1,6 @@
 package com.borsch_team.moneysaver.data.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.borsch_team.moneysaver.data.models.MoneyTransaction
 import com.borsch_team.moneysaver.data.models.TransactionAndCategory
 
@@ -12,15 +9,19 @@ interface TransactionDao {
     @Query("SELECT * FROM moneyTransaction WHERE date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
     suspend fun getAllTransactions(startTimeStamp: Long, endTimeStamp: Long): List<MoneyTransaction>
 
+    @Transaction
     @Query("SELECT * FROM moneyTransaction WHERE isExpenses is 0 AND isPlanned = 0 AND idBill = :bill AND date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
     suspend fun getIncomeTransactions(bill: Long, startTimeStamp: Long, endTimeStamp: Long): List<TransactionAndCategory>
 
+    @Transaction
     @Query("SELECT * FROM moneyTransaction WHERE isExpenses is 0 AND isPlanned = 0 AND date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
     suspend fun getAllIncomeTransactions(startTimeStamp: Long, endTimeStamp: Long): List<TransactionAndCategory>
 
+    @Transaction
     @Query("SELECT * FROM moneyTransaction WHERE isExpenses is 1 AND isPlanned = 0 AND idBill = :bill AND date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
     suspend fun getExpensesTransactions(bill: Long, startTimeStamp: Long, endTimeStamp: Long): List<TransactionAndCategory>
 
+    @Transaction
     @Query("SELECT * FROM moneyTransaction WHERE isExpenses is 1 AND isPlanned = 0 AND date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
     suspend fun getAllExpensesTransactions(startTimeStamp: Long, endTimeStamp: Long): List<TransactionAndCategory>
 
@@ -48,6 +49,7 @@ interface TransactionDao {
     @Query("DELETE FROM moneyTransaction WHERE idBill = :billId")
     fun deleteBillTransactions(billId: Long)
 
+    @Transaction
     @Query("SELECT * FROM moneyTransaction WHERE isPlanned = 1")
     suspend fun getPlannedTransactions(): List<TransactionAndCategory>
 }

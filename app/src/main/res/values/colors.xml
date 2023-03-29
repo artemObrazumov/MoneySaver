@@ -14,6 +14,20 @@
     <color name="cardBlueLight">#225D9F</color>
     <color name="cardBlueDark">#78A8DD</color>
     <color name="expenses">#FF4242</color>
+    <attr name="purple_200" format="reference|color"/>
+    <attr name="purple_500" format="reference|color"/>
+    <attr name="purple_700" format="reference|color"/>
+    <attr name="backgroundOrange" format="reference|color"/>
+    <attr name="teal_200" format="reference|color"/>
+    <attr name="teal_700" format="reference|color"/>
+    <attr name="black" format="reference|color"/>
+    <attr name="white" format="reference|color"/>
+    <attr name="background" format="reference|color"/>
+    <attr name="cardGreenLight" format="reference|color"/>
+    <attr name="cardGreenDark" format="reference|color"/>
+    <attr name="cardBlueLight" format="reference|color"/>
+    <attr name="cardBlueDark" format="reference|color"/>
+    <attr name="expenses" format="reference|color"/>
 
     <color name="products">#E09A5F</color>
     <color name="clothes">#C65C5C</color>
