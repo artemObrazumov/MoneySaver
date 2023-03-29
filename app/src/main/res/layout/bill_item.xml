@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:text="0 р"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/title"
         app:layout_constraintEnd_toEndOf="parent"
