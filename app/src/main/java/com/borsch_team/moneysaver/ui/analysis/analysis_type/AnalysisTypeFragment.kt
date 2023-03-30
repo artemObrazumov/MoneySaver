@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.databinding.FragmentAnalysisTypeBinding
+import com.borsch_team.moneysaver.ui.adapter.AnalysisTypeCategoryAdapter
 import com.faskn.lib.PieChart
 import com.faskn.lib.Slice
 import com.faskn.lib.buildChart
@@ -24,6 +26,8 @@ class AnalysisTypeFragment(private val isExpenses: Boolean,
     private lateinit var viewModel: AnalysisTypeViewModel
     private lateinit var pieChart: PieChart
 
+    private lateinit var adapter: AnalysisTypeCategoryAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,6 +36,7 @@ class AnalysisTypeFragment(private val isExpenses: Boolean,
         binding = FragmentAnalysisTypeBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[AnalysisTypeViewModel::class.java]
 
+        binding.recyclerAnalysisCategories.layoutManager = LinearLayoutManager(context)
 
         return binding.root
     }
@@ -43,6 +48,7 @@ class AnalysisTypeFragment(private val isExpenses: Boolean,
 
     private fun updateData(){
         if(isExpenses){
+            // Init graph
             viewModel.arrExpenses.observe(requireActivity()){
                 if (it.size != 0){
                     initPie(it)
@@ -52,7 +58,16 @@ class AnalysisTypeFragment(private val isExpenses: Boolean,
                 }
             }
             viewModel.getExpenses(startTimestamp, endTimestamp)
+            // Init recycler
+            adapter = AnalysisTypeCategoryAdapter()
+            viewModel.arrCategories.observe(requireActivity()){
+                adapter.setDataList(it)
+                binding.recyclerAnalysisCategories.adapter = adapter
+            }
+            viewModel.getDataForRecycler(true, startTimestamp, endTimestamp)
+
         }else{
+            // Init graph
             viewModel.arrIncomes.observe(requireActivity()){
                 if (it.size != 0){
                     initPie(it)
@@ -62,6 +77,14 @@ class AnalysisTypeFragment(private val isExpenses: Boolean,
                 }
             }
             viewModel.getIncomes(startTimestamp, endTimestamp)
+
+            // Init recycler
+            adapter = AnalysisTypeCategoryAdapter()
+            viewModel.arrCategories.observe(requireActivity()){
+                adapter.setDataList(it)
+                binding.recyclerAnalysisCategories.adapter = adapter
+            }
+            viewModel.getDataForRecycler(false, startTimestamp, endTimestamp)
         }
     }
 

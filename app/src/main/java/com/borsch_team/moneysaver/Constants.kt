@@ -17,6 +17,7 @@ class Constants {
             BillTypeItem(R.drawable.ic_banknotes, "Наличные")
         )
 
+
         fun getCategoryImageResource(categoryId: Long): Int =
             when (categoryId) {
                 1L -> R.drawable.cart_svgrepo_com
