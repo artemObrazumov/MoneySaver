@@ -42,6 +42,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
+                android:textColor="?attr/black"
+                android:textColorHint="?attr/black"
                 app:layout_constraintTop_toBottomOf="@+id/textView3"
                 android:layout_marginTop="8dp" />
 
@@ -106,6 +108,8 @@
                 android:layout_marginTop="8dp"
                 android:inputType="numberDecimal"
                 android:gravity="end"
+                android:textColor="?attr/black"
+                android:textColorHint="?attr/black"
                 app:layout_constraintEnd_toStartOf="@+id/textView6"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -114,7 +118,7 @@
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Р"
+                android:text="₽"
                 android:textColor="?attr/black"
                 android:textSize="18sp"
                 android:textStyle="bold"

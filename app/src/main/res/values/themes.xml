@@ -18,6 +18,7 @@
         <item name="dot_selected">@color/purple_500</item>
         <item name="dot_unselected">@android:color/darker_gray</item>
         <item name="separator">@color/separator</item>
+        <item name="checkbox">@color/purple_500</item>
 
         <!-- Primary brand color. -->
         <item name="colorPrimary">?attr/purple_500</item>
@@ -91,5 +92,9 @@
         <item name="dot_selected">@color/white</item>
         <item name="dot_unselected">@color/bgDark</item>
         <item name="separator">@color/separatorDark</item>
+        <item name="actionMenuTextColor">@color/white</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="checkbox">@color/white</item>
     </style>
 </resources>

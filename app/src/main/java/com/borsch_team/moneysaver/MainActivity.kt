@@ -25,10 +25,6 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
 
-        if (intent.getBooleanExtra("afterTheming", false)) {
-            navController.navigate(R.id.navigation_profile)
-        }
-
         binding.fab.setOnClickListener {
             val intent = Intent(this, TransactionEditorActivity::class.java)
             startActivity(intent)

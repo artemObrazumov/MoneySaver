@@ -36,4 +36,5 @@
     <string name="light_theme">Светлая</string>
     <string name="dark_theme">Темная</string>
     <string name="oled_theme">OLED</string>
+    <string name="planned_bills">Запланированные расходы</string>
 </resources>

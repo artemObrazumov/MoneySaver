@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModelProvider
 import com.borsch_team.moneysaver.R
+import com.borsch_team.moneysaver.data.PreferencesManager
 import com.borsch_team.moneysaver.data.models.TransactionCategory
 import com.borsch_team.moneysaver.databinding.ActivityCategoryEditorBinding
 import com.borsch_team.moneysaver.setupTheme
@@ -26,7 +27,7 @@ class CategoryEditorActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item,
             arrayOf("Расходам", "Доходам")
         )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        adapter.setDropDownViewResource(R.layout.spinner_item)
         binding.typeSelect.adapter = adapter
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)

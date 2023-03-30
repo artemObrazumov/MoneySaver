@@ -49,14 +49,6 @@ class AuthSignInActivity : AppCompatActivity() {
             startActivity(Intent(this, AuthSignUpActivity::class.java))
         }
 
-        binding.signUpPhone.setOnClickListener{
-            Toast.makeText(this, "В разработке...", Toast.LENGTH_SHORT).show()
-        }
-
-        binding.signUpGoogle.setOnClickListener {
-            Toast.makeText(this, "В разработке...", Toast.LENGTH_SHORT).show()
-        }
-
         setContentView(binding.root)
     }
 }
