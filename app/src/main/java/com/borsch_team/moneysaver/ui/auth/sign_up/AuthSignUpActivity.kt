@@ -30,7 +30,9 @@ class AuthSignUpActivity : AppCompatActivity() {
             if(email != "" && password != "" && repeatPassword != ""){
                 viewModel.authResultData.observe(this){
                     if(it.isSuccessful){
-                        startActivity(Intent(this, MainActivity::class.java))
+                        startActivity(Intent(this, MainActivity::class.java).apply {
+                            putExtra("afterLogin", true)
+                        })
                     }else{
                         Toast.makeText(this, "Ошибка", Toast.LENGTH_SHORT).show()
                     }

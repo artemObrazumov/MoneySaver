@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.borsch_team.moneysaver.data.PreferencesManager
 
 fun AppCompatActivity.setupTheme() {
-    when (PreferencesManager.getTheme(this)) {
+    when (App.preferencesManager.getTheme()) {
         PreferencesManager.THEME_LIGHT -> {
             this.setTheme(R.style.Theme_MoneySaver)
         }

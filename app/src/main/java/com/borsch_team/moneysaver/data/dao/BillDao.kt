@@ -28,4 +28,6 @@ interface BillDao{
 
     @Query("DELETE FROM bill WHERE billID = :id")
     suspend fun delete(id: Long)
+    @Query("DELETE FROM bill")
+    suspend fun clearBills()
 }
