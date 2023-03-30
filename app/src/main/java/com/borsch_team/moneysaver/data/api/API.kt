@@ -23,9 +23,13 @@ class API(private val database: MoneySaverDatabase) {
     suspend fun upsertTransaction(transaction: MoneyTransaction) {
         database.transactionDao().upsert(transaction)
         payFromBill(transaction)
-        if (transaction.isPlanned!!) {
+        if (transaction.isPlanned!! && transaction.isExpenses!!) {
             addReservedMoney(transaction)
         }
+    }
+
+    private suspend fun upsertTransactionRaw(transaction: MoneyTransaction) {
+        database.transactionDao().upsert(transaction)
     }
 
     private suspend fun addReservedMoney(transaction: MoneyTransaction) {
@@ -35,6 +39,7 @@ class API(private val database: MoneySaverDatabase) {
     }
 
     private suspend fun payFromBill(transaction: MoneyTransaction) {
+        if (transaction.isPlanned!! && !transaction.isExpenses!!) return
         val bill = getBill(transaction.idBill!!.toLong())
         bill.balance = bill.balance?.plus(transaction.money!!)
         upsertBill(bill)
@@ -81,28 +86,6 @@ class API(private val database: MoneySaverDatabase) {
             }
         }
     }
-//    suspend fun getExpensesTransactions(): ArrayList<MoneyTransaction> {
-//        return arrayListOf(
-//            MoneyTransaction(1, true, "Яндекс Такси", "Описание", 1, 1, 1, 100.0F),
-//            MoneyTransaction(2, true, "Продукты", "Описание", 2, 2, 1, 150.0F),
-//            MoneyTransaction(3, true, "Пятерочки", "Описание", 3, 3, 1, 250.0F),
-//            MoneyTransaction(4, true, "KFC", "Описание", 4, 4, 1, 300.0F),
-//            MoneyTransaction(4, true, "KFC", "Описание", 4, 4, 1, 300.0F),
-//            MoneyTransaction(4, true, "KFC", "Описание", 4, 4, 1, 300.0F),
-//            MoneyTransaction(4, true, "KFC", "Описание", 4, 4, 1, 300.0F),
-//            MoneyTransaction(4, true, "KFC", "Описание", 4, 4, 1, 300.0F),
-//            MoneyTransaction(4, true, "KFC", "Описание", 4, 4, 1, 300.0F),
-//            MoneyTransaction(4, true, "KFC", "Описание", 4, 4, 1, 300.0F),
-//        )
-//    }
-//    suspend fun getIncomeTransactions(): ArrayList<MoneyTransaction> {
-//        return arrayListOf(
-//            MoneyTransaction(1, false, "Зарплата", "Описание", 1, 1, 1, 100.0F),
-//            MoneyTransaction(2, false, "Денежный перевод", "Описание", 2, 2, 1, 150.0F),
-//            MoneyTransaction(3, false, "Фриланс", "Описание", 3, 3, 1, 250.0F),
-//            MoneyTransaction(4, false, "Материнский капитал", "Описание", 4, 4, 1, 300.0F),
-//        )
-//    }
 
     suspend fun getExpensesTransactions(
         billID: Long,
@@ -142,14 +125,12 @@ class API(private val database: MoneySaverDatabase) {
         val bill = getBill(transaction.idBill!!.toLong())
         if (transaction.isExpenses!!) {
             bill.reservedMoney = bill.reservedMoney?.plus(transaction.money!!)
-        } else {
-            bill.reservedMoney = bill.reservedMoney?.minus(transaction.money!!)
-            bill.balance = bill.balance?.plus(transaction.money!!)
         }
         upsertBill(bill)
     }
 
     private suspend fun putBackToBill(transaction: MoneyTransaction) {
+        if (transaction.isPlanned!! && !transaction.isExpenses!!) return
         val bill = getBill(transaction.idBill!!.toLong())
         bill.balance = bill.balance?.minus(transaction.money!!)
         upsertBill(bill)
@@ -166,4 +147,34 @@ class API(private val database: MoneySaverDatabase) {
         endTimestamp: Long
     ): List<TransactionAndCategory> =
         database.transactionDao().getAllExpensesTransactions(startTimestamp, endTimestamp)
+
+    suspend fun performPlannedTransaction(transaction: MoneyTransaction) {
+        if (transaction.isExpenses!!) {
+            decreaseReservedMoney(transaction)
+        } else {
+            addToBill(transaction)
+        }
+        database.transactionDao().delete(transaction.id!!)
+        changeTransactionPlannedType(transaction)
+    }
+
+    private suspend fun addToBill(transaction: MoneyTransaction) {
+        val bill = getBill(transaction.idBill!!.toLong())
+        bill.balance = bill.balance?.plus(kotlin.math.abs(transaction.money!!))
+        upsertBill(bill)
+    }
+
+    private suspend fun changeTransactionPlannedType(transaction: MoneyTransaction) {
+        transaction.isPlanned = false
+        upsertTransactionRaw(transaction)
+    }
+
+    private suspend fun getTransaction(transactionId: Long): MoneyTransaction =
+        database.transactionDao().getTransaction(transactionId)
+
+    private suspend fun decreaseReservedMoney(transaction: MoneyTransaction) {
+        val bill = getBill(transaction.idBill!!.toLong())
+        bill.reservedMoney = bill.reservedMoney?.minus(kotlin.math.abs(transaction.money!!))
+        upsertBill(bill)
+    }
 }

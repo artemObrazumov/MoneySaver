@@ -59,6 +59,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0-beta01'
     implementation 'androidx.test:monitor:1.5.0'
     implementation 'androidx.test.ext:junit-ktx:1.1.5'
+    implementation 'com.google.firebase:firebase-database-ktx:20.0.4'
     // Room
     var room_version = "2.5.1"
     implementation("androidx.room:room-runtime:$room_version")
