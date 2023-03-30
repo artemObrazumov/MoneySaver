@@ -3,6 +3,7 @@ package com.borsch_team.moneysaver.ui.analysis
 import android.app.DatePickerDialog
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.viewpager2.widget.ViewPager2
 import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.data.models.TimeRange
@@ -30,55 +32,39 @@ class AnalysisFragment : Fragment() {
     private lateinit var pagerAdapter: AnalysisPagerAdapter
     private lateinit var selectedColor: ColorStateList
     private lateinit var unselectedColor: ColorStateList
+
     private var startTimestamp: Long = 0
     private var endTimestamp: Long = 0
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = FragmentAnalysisBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[AnalysisViewModel::class.java]
 
         selectedColor = binding.tabExpenses.textColors
         unselectedColor = binding.tabIncome.textColors
 
+        viewModel.mutableTimeRange.observe(requireActivity()){timeRange ->
+            startTimestamp = timeRange.startTimestamp
+            endTimestamp = timeRange.endTimestamp
+        }
+
         binding.pickDate.setOnClickListener {
-            AnalysisDatePeackerFragment {
-                it.startTimestamp
+            AnalysisDatePeackerFragment(startTimestamp, endTimestamp) {timeRange ->
+                startTimestamp = timeRange.startTimestamp
+                endTimestamp = timeRange.endTimestamp
+
+                initializePager(startTimestamp, endTimestamp)
             }.show(childFragmentManager, "tag")
         }
 
-        lateinitInitData()
         initializeTabs()
-        initializePager()
+        initializePager(startTimestamp, endTimestamp)
 
         return binding.root
     }
-
-    private fun lateinitInitData(calendar: Calendar = Calendar.getInstance()){
-        val timeRange = TimeRange(
-            calendar.apply {
-                set(Calendar.DAY_OF_MONTH, 1)
-                set(Calendar.HOUR_OF_DAY, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-            }.timeInMillis,
-            calendar.apply {
-                set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
-                set(Calendar.HOUR_OF_DAY, calendar.getActualMaximum(Calendar.HOUR_OF_DAY))
-                set(Calendar.MINUTE, calendar.getActualMaximum(Calendar.MINUTE))
-                set(Calendar.SECOND, calendar.getActualMaximum(Calendar.SECOND))
-                set(Calendar.MILLISECOND, calendar.getActualMaximum(Calendar.MILLISECOND))
-            }.timeInMillis
-        )
-        startTimestamp = timeRange.startTimestamp
-        endTimestamp = timeRange.endTimestamp
-    }
-
 
     private fun initializeTabs() {
         val tabListener = View.OnClickListener {
@@ -115,7 +101,7 @@ class AnalysisFragment : Fragment() {
         }
     }
 
-    private fun initializePager() {
+    private fun initializePager(startTimestamp: Long, endTimestamp: Long) {
         pagerAdapter = AnalysisPagerAdapter(requireActivity(), startTimestamp, endTimestamp)
         binding.transactionsPagerAdapter.adapter = pagerAdapter
         binding.transactionsPagerAdapter.isSaveFromParentEnabled = false

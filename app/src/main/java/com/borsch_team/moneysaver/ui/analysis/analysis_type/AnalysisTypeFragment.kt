@@ -38,6 +38,10 @@ class AnalysisTypeFragment(private val isExpenses: Boolean,
 
     override fun onResume() {
         super.onResume()
+        updateData()
+    }
+
+    private fun updateData(){
         if(isExpenses){
             viewModel.arrExpenses.observe(requireActivity()){
                 if (it.size != 0){
