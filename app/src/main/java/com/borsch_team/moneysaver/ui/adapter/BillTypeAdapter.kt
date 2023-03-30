@@ -29,7 +29,7 @@ class BillTypeAdapter (
     override fun getView(i: Int, view: View?, viewGroup: ViewGroup): View {
         val spinnerView = inflater.inflate(R.layout.bill_type_item,null)
         val icon = spinnerView.findViewById<View>(R.id.imageView) as ImageView?
-        val names = spinnerView.findViewById<View>(R.id.textView) as TextView?
+        val names = spinnerView.findViewById<View>(R.id.tv_date) as TextView?
         icon!!.setImageResource(billTypes[i].image)
         names!!.text = billTypes[i].textContent
         return spinnerView

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.borsch_team.moneysaver.data.models.TimeRange
 import com.borsch_team.moneysaver.databinding.FragmentAnalysisDatePeackerBinding
@@ -40,8 +41,12 @@ class AnalysisDatePeackerFragment(
         }
 
         binding.btnSave.setOnClickListener {
-            time(timeRange)
-            dismiss()
+            if (timeRange.startTimestamp > timeRange.endTimestamp){
+                Toast.makeText(context, "Выбран неккоректный диапазон!", Toast.LENGTH_SHORT).show()
+            }else{
+                time(timeRange)
+                dismiss()
+            }
         }
 
         return binding.root

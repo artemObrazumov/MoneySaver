@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -64,15 +65,40 @@ class TransactionsFragment : Fragment() {
         findCurrentTimeRange()
         initializePager()
         initializeTabs()
+        updateUI(Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.YEAR))
+
         viewModel.bills.observe(viewLifecycleOwner) { bills ->
             adapter.updateDataset(bills)
             if (bills.isNotEmpty() && binding.billsPager.currentItem < adapter.itemCount-1) {
                 onBillChanged(adapter.getBill(binding.billsPager.currentItem))
             }
         }
+
         selectedColor = binding.tabExpenses.textColors
         unselectedColor = binding.tabIncome.textColors
+
+        binding.monthSelect.setOnClickListener {
+            MonthYearPickerDialog().apply {
+                setListener { view, year, month, dayOfMonth ->
+                    findCurrentTimeRange(Calendar.getInstance().apply {
+                        set(Calendar.YEAR, year)
+                        set(Calendar.MONTH, month)
+                        set(Calendar.DAY_OF_MONTH, 2)
+                        updateUI(month, year)
+                    })
+                    onBillChanged(adapter.getBill(binding.billsPager.currentItem))
+                }
+                show(this@TransactionsFragment.parentFragmentManager, "MonthYearPickerDialog")
+            }
+        }
         return binding.root
+    }
+
+    private fun updateUI(month: Int, year: Int){
+        val months = arrayOf("Январь","Февраль","Март","Апрель","Май","Июнь","Июль",
+            "Август","Сентябрь","Октябрь","Ноябрь","Декабрь")
+
+        binding.tvDate.text = months[month] + ", " + year.toString()
     }
 
     private fun initializePager() {
@@ -165,4 +191,5 @@ class TransactionsFragment : Fragment() {
             binding.tabIncome.setTextColor(selectedColor)
         }
     }
+
 }

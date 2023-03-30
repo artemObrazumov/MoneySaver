@@ -94,7 +94,7 @@ class AnalysisTypeViewModel: ViewModel() {
                 )
             }
 
-            arrCategories.value = dataRecycler
+            arrCategories.postValue(dataRecycler)
         }
     }
 }
