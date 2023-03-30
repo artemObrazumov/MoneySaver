@@ -3,6 +3,7 @@ package com.borsch_team.moneysaver.ui.profile
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.os.SharedMemory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
@@ -36,7 +37,8 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
 
-        binding.name.text = FirebaseAuth.getInstance().currentUser?.email.toString()
+        //binding.name.text = FirebaseAuth.getInstance().currentUser?.email.toString()
+        binding.name.text = PreferencesManager.getUsername(requireContext()).toString()
 
         if (FirebaseAuth.getInstance().currentUser == null) {
             binding.accountLastSync.visibility = View.GONE
@@ -49,6 +51,8 @@ class ProfileFragment : Fragment() {
                 Firebase.auth.signOut()
             }
         }
+
+
         return binding.root
     }
 

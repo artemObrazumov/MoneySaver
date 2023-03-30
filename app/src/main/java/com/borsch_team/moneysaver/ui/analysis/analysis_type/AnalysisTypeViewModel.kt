@@ -83,7 +83,7 @@ class AnalysisTypeViewModel: ViewModel() {
                     hashMapData[it.category.name!!] = hashMapData[it.category.name!!]!! + it.transaction.money!!
                 }
             }
-
+            // Заполняем массив данными
             hashMapData.forEach {
                 dataRecycler.add(
                     AnalysisTransaction(
@@ -92,6 +92,13 @@ class AnalysisTypeViewModel: ViewModel() {
                         Constants.getColorResource(hashMapCategory[it.key]!!)
                     )
                 )
+            }
+            if(isExpenses){
+                dataRecycler.sortBy { it.money }
+            }
+            else{
+                dataRecycler.sortBy { it.money }
+                dataRecycler.reverse()
             }
 
             arrCategories.postValue(dataRecycler)

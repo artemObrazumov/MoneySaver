@@ -9,6 +9,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.borsch_team.moneysaver.data.PreferencesManager
 import com.borsch_team.moneysaver.databinding.ActivityMainBinding
+import com.borsch_team.moneysaver.ui.hello.HelloActivity
 import com.borsch_team.moneysaver.ui.transaction_editor.TransactionEditorActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -32,5 +33,12 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, TransactionEditorActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        /*if(PreferencesManager.getUsername(applicationContext) == null){
+            startActivity(Intent(this, HelloActivity::class.java))
+        }*/
     }
 }

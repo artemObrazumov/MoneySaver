@@ -16,6 +16,9 @@
         android:theme="@style/Theme.MoneySaver"
         tools:targetApi="31">
         <activity
+            android:name=".ui.hello.HelloActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.auth.reset_password.AuthResetPasswordActivity"
             android:exported="false" />
         <activity
