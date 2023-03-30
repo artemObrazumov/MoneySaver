@@ -22,12 +22,19 @@
     <attr name="teal_700" format="reference|color"/>
     <attr name="black" format="reference|color"/>
     <attr name="white" format="reference|color"/>
-    <attr name="background" format="reference|color"/>
+    <attr name="backgroundColor" format="reference|color"/>
     <attr name="cardGreenLight" format="reference|color"/>
     <attr name="cardGreenDark" format="reference|color"/>
     <attr name="cardBlueLight" format="reference|color"/>
     <attr name="cardBlueDark" format="reference|color"/>
     <attr name="expenses" format="reference|color"/>
+    <attr name="dot_selected" format="reference|color"/>
+    <attr name="dot_unselected" format="reference|color"/>
+    <attr name="separator" format="reference|color"/>
+    <attr name="checkbox" format="reference|color"/>
+    <color name="whiteDark">#2D2C39</color>
+    <color name="bgDark">#21202C</color>
+    <color name="brandDark">#393847</color>
 
     <color name="products">#E09A5F</color>
     <color name="clothes">#C65C5C</color>
@@ -48,4 +55,5 @@
     <color name="other_category">#11BAFD</color>
     <color name="incomes">#3AD886</color>
     <color name="separator">#D6D6D6</color>
+    <color name="separatorDark">#76768C</color>
 </resources>

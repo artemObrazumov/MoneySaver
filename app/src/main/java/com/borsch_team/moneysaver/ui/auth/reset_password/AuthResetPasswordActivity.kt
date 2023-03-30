@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.borsch_team.moneysaver.MainActivity
 import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.databinding.ActivityAuthResetPasswordBinding
+import com.borsch_team.moneysaver.setupTheme
 import com.borsch_team.moneysaver.ui.auth.sign_in.AuthSignInActivity
 import javax.security.auth.login.LoginException
 
@@ -17,6 +18,7 @@ class AuthResetPasswordActivity : AppCompatActivity() {
     private lateinit var viewModel: AuthResetPasswordViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setupTheme()
         super.onCreate(savedInstanceState)
         binding = ActivityAuthResetPasswordBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[AuthResetPasswordViewModel::class.java]

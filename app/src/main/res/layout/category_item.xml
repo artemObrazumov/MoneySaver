@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
-    android:background="?attr/selectableItemBackground"
+    android:background="?attr/white"
     android:padding="8dp">
 
     <ImageView
@@ -25,7 +25,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="Custom Text"
-        android:textColor="@color/black"
+        android:textColor="?attr/black"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

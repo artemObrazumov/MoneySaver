@@ -16,6 +16,7 @@ import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.data.models.MoneyTransaction
 import com.borsch_team.moneysaver.data.models.TransactionCategory
 import com.borsch_team.moneysaver.databinding.ActivityTransactionEditorBinding
+import com.borsch_team.moneysaver.setupTheme
 import com.borsch_team.moneysaver.ui.adapter.BillsAdapter
 import com.borsch_team.moneysaver.ui.category_select.CategorySelectFragment
 import com.borsch_team.moneysaver.ui.dialog.CompletedDialog
@@ -36,6 +37,7 @@ import java.util.*
     private var transactionTime: Long? = null
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
+        setupTheme()
         super.onCreate(savedInstanceState)
         binding = ActivityTransactionEditorBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[TransactionEditorViewModel::class.java]

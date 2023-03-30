@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="?attr/backgroundColor"
     tools:context=".ui.profile.ProfileFragment">
 
 
@@ -23,7 +23,7 @@
             android:layout_marginTop="48dp"
             android:gravity="center"
             android:text="Имя"
-            android:textColor="@color/black"
+            android:textColor="?attr/black"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent" />
@@ -32,6 +32,7 @@
             android:id="@+id/imageView4"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            app:tint="?attr/black"
             android:src="@drawable/baseline_account_circle_24"
             app:layout_constraintBottom_toBottomOf="@+id/account_status"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Вход в аккаунт не выполнен"
-            android:textColor="@color/black"
+            android:textColor="?attr/black"
             android:layout_marginStart="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView4"
@@ -55,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Последняя синхронизация:"
-            android:textColor="@color/black"
+            android:textColor="?attr/black"
             android:layout_marginStart="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView4"
@@ -90,6 +91,7 @@
             <ImageView
                 android:layout_width="28dp"
                 android:layout_height="28dp"
+                app:tint="?attr/black"
                 android:src="@drawable/baseline_color_lens_24" />
 
             <TextView
@@ -98,7 +100,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
-                android:textColor="@color/black"
+                android:textColor="?attr/black"
                 android:gravity="center_vertical"
                 android:text="Тема: светлая"/>
 
@@ -150,7 +152,7 @@
                 android:gravity="center"
                 android:padding="8dp"
                 android:text="@string/light_theme"
-                android:textColor="@color/black" />
+                android:textColor="?attr/black" />
 
             <TextView
                 android:id="@+id/theme_dark"
@@ -181,7 +183,7 @@
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:src="@drawable/avatar_boy_svgrepo_com"
-        app:strokeColor="@color/white"
+        app:strokeColor="?attr/white"
         app:strokeWidth="2dp"
         android:padding="2dp"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
@@ -189,15 +191,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/constraintLayout2"
         app:shapeAppearance="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
-
-    <ImageView
-        android:id="@+id/img_logout"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/baseline_logout_24"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
-        app:layout_constraintEnd_toEndOf="@+id/constraintLayout2"
-        app:layout_constraintStart_toEndOf="@+id/avatar"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

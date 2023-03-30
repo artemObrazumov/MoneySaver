@@ -4,21 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="?attr/backgroundColor">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/container"
-        tools:context=".ui.planned_bills.PlannedBillsFragment">
+        android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/plannedTransactions"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/planned_bills"
+            android:textColor="?attr/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/transaction_item" />
+            tools:layout_editor_absoluteX="12dp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/container"
+            android:layout_marginTop="12dp"
+            tools:context=".ui.planned_bills.PlannedBillsFragment">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/plannedTransactions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/transaction_item" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

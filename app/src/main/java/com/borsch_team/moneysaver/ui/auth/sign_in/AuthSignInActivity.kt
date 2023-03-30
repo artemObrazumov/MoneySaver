@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.borsch_team.moneysaver.MainActivity
 import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.databinding.ActivityAuthSignInBinding
+import com.borsch_team.moneysaver.setupTheme
 import com.borsch_team.moneysaver.ui.auth.reset_password.AuthResetPasswordActivity
 import com.borsch_team.moneysaver.ui.auth.sign_up.AuthSignUpActivity
 
@@ -17,6 +18,7 @@ class AuthSignInActivity : AppCompatActivity() {
     private lateinit var viewModel: AuthSignInViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setupTheme()
         super.onCreate(savedInstanceState)
 
         binding = ActivityAuthSignInBinding.inflate(layoutInflater)
@@ -45,14 +47,6 @@ class AuthSignInActivity : AppCompatActivity() {
 
         binding.tvSignUp.setOnClickListener {
             startActivity(Intent(this, AuthSignUpActivity::class.java))
-        }
-
-        binding.signUpPhone.setOnClickListener{
-            Toast.makeText(this, "В разработке...", Toast.LENGTH_SHORT).show()
-        }
-
-        binding.signUpGoogle.setOnClickListener {
-            Toast.makeText(this, "В разработке...", Toast.LENGTH_SHORT).show()
         }
 
         setContentView(binding.root)
