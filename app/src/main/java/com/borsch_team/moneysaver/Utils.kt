@@ -35,7 +35,7 @@ class Utils {
         }
 
         fun getStringDate(date: Long): String{
-            return SimpleDateFormat("dd/M/yyyy").format(date)
+            return SimpleDateFormat(Constants.TIME_FORMAT_PATTERN, Locale("ru")).format(date)
         }
     }
 }

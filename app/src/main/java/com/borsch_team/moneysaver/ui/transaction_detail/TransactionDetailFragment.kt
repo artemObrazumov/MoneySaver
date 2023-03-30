@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.borsch_team.moneysaver.App
 import com.borsch_team.moneysaver.Constants
 import com.borsch_team.moneysaver.R
+import com.borsch_team.moneysaver.Utils
 import com.borsch_team.moneysaver.data.PreferencesManager
 import com.borsch_team.moneysaver.data.models.TransactionAndCategory
 import com.borsch_team.moneysaver.databinding.FragmentTransactionDetailBinding
@@ -55,6 +56,7 @@ class TransactionDetailFragment(
         }else{
             binding.tvTransMoney.text = "+ ${data.transaction.money} ₽"
         }
+        binding.tvTransDate.text = Utils.getStringDate(data.transaction.date!!)
         binding.deleteButton.setOnClickListener {
             WarningDialog("Вы уверены, что хотите удалить эту операцию?") {
                 viewModel.deleteTransaction(data.transaction)
