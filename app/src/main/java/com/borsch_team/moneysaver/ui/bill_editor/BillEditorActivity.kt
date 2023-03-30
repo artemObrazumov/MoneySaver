@@ -10,6 +10,7 @@ import com.borsch_team.moneysaver.Constants
 import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.data.models.Bill
 import com.borsch_team.moneysaver.databinding.ActivityBillEditorBinding
+import com.borsch_team.moneysaver.setupTheme
 import com.borsch_team.moneysaver.ui.adapter.BillTypeAdapter
 import com.borsch_team.moneysaver.ui.dialog.CompletedDialog
 import com.borsch_team.moneysaver.ui.dialog.WarningDialog
@@ -22,6 +23,7 @@ class BillEditorActivity : AppCompatActivity() {
     private var reserved: Float = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setupTheme()
         super.onCreate(savedInstanceState)
         binding = ActivityBillEditorBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[BillEditorViewModel::class.java]

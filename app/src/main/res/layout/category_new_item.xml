@@ -25,7 +25,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="@string/addCategory"
-        android:textColor="@color/black"
+        android:textColor="?attr/black"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

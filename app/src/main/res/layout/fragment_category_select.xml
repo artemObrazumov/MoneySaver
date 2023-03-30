@@ -17,7 +17,7 @@
             android:text="@string/expenses"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/black"
+            android:textColor="?attr/black"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_margin="12dp"
             android:layout_marginTop="24dp" />
@@ -40,7 +40,7 @@
             android:text="@string/income"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/black"
+            android:textColor="?attr/black"
             app:layout_constraintTop_toBottomOf="@+id/expenses" />
 
         <androidx.recyclerview.widget.RecyclerView

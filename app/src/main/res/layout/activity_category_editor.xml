@@ -4,12 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/white"
     tools:context=".ui.category_editor.CategoryEditorActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:titleTextColor="?attr/black"
+        android:background="?attr/backgroundColor"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
@@ -27,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/name"
-                android:textColor="@color/black"
+                android:textColor="?attr/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -45,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/categoryTo"
-                android:textColor="@color/black"
+                android:textColor="?attr/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginTop="18dp"

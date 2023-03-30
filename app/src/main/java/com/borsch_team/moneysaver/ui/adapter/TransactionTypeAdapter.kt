@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.borsch_team.moneysaver.Constants
 import com.borsch_team.moneysaver.R
+import com.borsch_team.moneysaver.data.PreferencesManager
 import com.borsch_team.moneysaver.data.models.MoneyTransaction
 import com.borsch_team.moneysaver.data.models.TransactionAndCategory
 import com.borsch_team.moneysaver.databinding.TransactionItemBinding
@@ -35,7 +36,11 @@ class TransactionTypeAdapter(private val clickedItem: (item: TransactionAndCateg
             binding.tvCategory.text = moneyTransaction.category.name
             if(moneyTransaction.transaction.isExpenses!!){
                 binding.tvMoney.text = "- ${abs(moneyTransaction.transaction.money!!)} ₽"
-                binding.tvMoney.setTextColor(Color.BLACK)
+                if (PreferencesManager.getTheme(binding.root.context) == PreferencesManager.THEME_LIGHT) {
+                    binding.tvMoney.setTextColor(Color.BLACK)
+                } else {
+                    binding.tvMoney.setTextColor(Color.WHITE)
+                }
             }else{
                 binding.tvMoney.text = "+ ${moneyTransaction.transaction.money} ₽"
             }

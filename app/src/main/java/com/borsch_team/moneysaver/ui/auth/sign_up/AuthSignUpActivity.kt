@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.borsch_team.moneysaver.MainActivity
 import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.databinding.ActivityAuthSignUpBinding
+import com.borsch_team.moneysaver.setupTheme
 
 class AuthSignUpActivity : AppCompatActivity() {
 
@@ -15,6 +16,7 @@ class AuthSignUpActivity : AppCompatActivity() {
     private lateinit var viewModel: AuthSignUpViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setupTheme()
         super.onCreate(savedInstanceState)
 
         binding = ActivityAuthSignUpBinding.inflate(layoutInflater)

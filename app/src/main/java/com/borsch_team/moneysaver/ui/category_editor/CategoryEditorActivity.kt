@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.data.models.TransactionCategory
 import com.borsch_team.moneysaver.databinding.ActivityCategoryEditorBinding
+import com.borsch_team.moneysaver.setupTheme
 import com.borsch_team.moneysaver.ui.category_select.CategorySelectViewModel
 import com.borsch_team.moneysaver.ui.dialog.CompletedDialog
 
@@ -18,6 +19,7 @@ class CategoryEditorActivity : AppCompatActivity() {
     private lateinit var viewModel: CategoryEditorViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setupTheme()
         super.onCreate(savedInstanceState)
         binding = ActivityCategoryEditorBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[CategoryEditorViewModel::class.java]

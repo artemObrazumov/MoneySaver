@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="?attr/backgroundColor"
     android:fillViewport="true"
     tools:context=".ui.transactions.TransactionsFragment">
 
@@ -20,7 +20,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="12dp"
             android:text="Март, 2023"
-            android:textColor="@color/black"
+            android:textColor="?attr/black"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,6 +34,7 @@
             android:clickable="true"
             android:focusable="true"
             android:padding="8dp"
+            app:tint="?attr/black"
             android:src="@drawable/baseline_arrow_drop_down_24"
             app:layout_constraintBottom_toBottomOf="@+id/textView"
             app:layout_constraintStart_toEndOf="@+id/textView"
@@ -52,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/bills"
-                android:textColor="@color/black"
+                android:textColor="?attr/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -69,6 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 app:layout_constraintTop_toBottomOf="@+id/billsPager"
+                android:background="?attr/white"
                 app:tabBackground="@drawable/tab_selector"
                 app:tabGravity="center"
                 app:tabIndicatorHeight="0dp"
@@ -120,7 +122,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="8dp"
-                    android:textColor="@color/black"
+                    android:textColor="?attr/black"
                     android:text="@string/expenses" />
 
                 <TextView
