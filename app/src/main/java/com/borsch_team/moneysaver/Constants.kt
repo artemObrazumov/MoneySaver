@@ -10,7 +10,7 @@ class Constants {
         const val TRANSACTION_RESULT_SUCCESS = 0
         const val TRANSACTION_RESULT_MONEY_ERROR = 1
 
-        const val TIME_FORMAT_PATTERN = "HH:mm, dd MMMM yyyy"
+        const val TIME_FORMAT_PATTERN = "dd MMMM yyyy"
 
         val BILL_TYPES = listOf(
             BillTypeItem(R.drawable.ic_card, "Карта"),

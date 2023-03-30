@@ -111,10 +111,10 @@ import java.util.*
             cal.set(android.icu.util.Calendar.YEAR, year)
             cal.set(android.icu.util.Calendar.MONTH, monthOfYear)
             cal.set(android.icu.util.Calendar.DAY_OF_MONTH, dayOfMonth)
-            cal.set(java.util.Calendar.HOUR_OF_DAY, cal.getActualMaximum(java.util.Calendar.HOUR_OF_DAY))
-            cal.set(java.util.Calendar.MINUTE, cal.getActualMaximum(java.util.Calendar.MINUTE))
-            cal.set(java.util.Calendar.SECOND, cal.getActualMaximum(java.util.Calendar.SECOND))
-            cal.set(java.util.Calendar.MILLISECOND, cal.getActualMaximum(java.util.Calendar.MILLISECOND))
+            cal.set(java.util.Calendar.HOUR_OF_DAY, 0)
+            cal.set(java.util.Calendar.MINUTE, 0)
+            cal.set(java.util.Calendar.SECOND, 0)
+            cal.set(java.util.Calendar.MILLISECOND, 0)
 
             val myFormat = "dd.MM.yyyy" // mention the format you need
             val sdf = android.icu.text.SimpleDateFormat(myFormat, Locale.US)

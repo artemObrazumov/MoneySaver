@@ -25,5 +25,12 @@ class App: Application() {
 
         lateinit var api: API
             private set
+
+        var hasCheckedForPlannedTransactions: Boolean = false
+            private set
+
+        fun onTransactionsChecked() {
+            hasCheckedForPlannedTransactions = true
+        }
     }
 }
