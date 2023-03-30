@@ -4,6 +4,7 @@ import com.borsch_team.moneysaver.ui.adapter.models.BillTypeItem
 
 class Constants {
     companion object {
+        const val TIME_FORMAT_PATTERN_EXTENDED = "hh:mm, dd MMMM yyyy"
         const val BILL_TYPE_CARD = 0
         const val BILL_TYPE_BANKNOTES = 1
 

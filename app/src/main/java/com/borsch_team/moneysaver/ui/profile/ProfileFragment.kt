@@ -9,6 +9,8 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.borsch_team.moneysaver.App
+import com.borsch_team.moneysaver.Constants
 import com.borsch_team.moneysaver.MainActivity
 import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.data.PreferencesManager
@@ -21,6 +23,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ProfileFragment : Fragment() {
 
@@ -35,13 +39,7 @@ class ProfileFragment : Fragment() {
     ): View {
         binding = FragmentProfileBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
-
         binding.name.text = FirebaseAuth.getInstance().currentUser?.email.toString()
-
-        if (FirebaseAuth.getInstance().currentUser == null) {
-            binding.accountLastSync.visibility = View.GONE
-        }
-
         binding.accountControl.setOnClickListener {
             if (FirebaseAuth.getInstance().currentUser == null) {
                 startActivity(Intent(context, AuthSignInActivity::class.java))
@@ -52,6 +50,11 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateProfileState()
+    }
+
     override fun onStart() {
         super.onStart()
         CoroutineScope(Dispatchers.Main).launch {
@@ -60,11 +63,28 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    private fun updateProfileState() {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            binding.accountLastSync.visibility = View.GONE
+            binding.accountControl.text = "Войти в аккаунт"
+        } else {
+            binding.accountLastSync.visibility = View.VISIBLE
+            binding.accountControl.text = "Выйти из аккаунта"
+            if (App.preferencesManager.getLastTimeUpdate() == -1L) {
+                binding.accountLastSync.text = "Синхронизация не выполнена"
+            } else {
+                binding.accountLastSync.text = "Последняя синхронизация: " +
+                SimpleDateFormat(Constants.TIME_FORMAT_PATTERN_EXTENDED, Locale("ru"))
+                    .format(App.preferencesManager.getLastTimeUpdate())
+            }
+        }
+    }
+
     private fun initializeThemeControls() {
         selectedColor = binding.themeLight.textColors
         unselectedColor = binding.themeDark.textColors
 
-        when (PreferencesManager.getTheme(requireContext())) {
+        when (App.preferencesManager.getTheme()) {
             PreferencesManager.THEME_DARK -> {
                 binding.tabSelector.animate().x(binding.themeDark.x).duration = 100L
                 binding.themeLight.setTextColor(unselectedColor)
@@ -78,15 +98,15 @@ class ProfileFragment : Fragment() {
         }
 
         binding.themeLight.setOnClickListener {
-            PreferencesManager.saveTheme(PreferencesManager.THEME_LIGHT, requireContext())
+            App.preferencesManager.saveTheme(PreferencesManager.THEME_LIGHT)
             recreateActivity()
         }
         binding.themeDark.setOnClickListener {
-            PreferencesManager.saveTheme(PreferencesManager.THEME_DARK, requireContext())
+            App.preferencesManager.saveTheme(PreferencesManager.THEME_DARK)
             recreateActivity()
         }
         binding.themeOled.setOnClickListener {
-            PreferencesManager.saveTheme(PreferencesManager.THEME_OLED, requireContext())
+            App.preferencesManager.saveTheme(PreferencesManager.THEME_OLED)
             recreateActivity()
         }
     }

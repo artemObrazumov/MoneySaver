@@ -6,6 +6,9 @@ import com.borsch_team.moneysaver.data.models.TransactionAndCategory
 
 @Dao
 interface TransactionDao {
+    @Query("SELECT * FROM moneyTransaction")
+    suspend fun getAllTransactionsNoCategory(): List<MoneyTransaction>
+
     @Query("SELECT * FROM moneyTransaction WHERE date BETWEEN :startTimeStamp AND :endTimeStamp ORDER BY date")
     suspend fun getAllTransactions(startTimeStamp: Long, endTimeStamp: Long): List<MoneyTransaction>
 
@@ -52,4 +55,7 @@ interface TransactionDao {
     @Transaction
     @Query("SELECT * FROM moneyTransaction WHERE isPlanned = 1")
     suspend fun getPlannedTransactions(): List<TransactionAndCategory>
+
+    @Query("DELETE FROM moneyTransaction")
+    suspend fun clearTransactions()
 }

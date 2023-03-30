@@ -1,10 +1,11 @@
 package com.borsch_team.moneysaver.data.api
 
 import android.util.Log
+import com.borsch_team.moneysaver.App
 import com.borsch_team.moneysaver.data.databases.MoneySaverDatabase
 import com.borsch_team.moneysaver.data.models.*
 import com.google.firebase.auth.FirebaseAuth
-import java.lang.Math.abs
+import java.util.Calendar
 
 class API(private val database: MoneySaverDatabase) {
     suspend fun getBills() =
@@ -14,10 +15,14 @@ class API(private val database: MoneySaverDatabase) {
         database.billDao().getBill(billId)
 
     suspend fun upsertBill(bill: Bill) =
-        database.billDao().upsert(bill)
+        database.billDao().upsert(bill).also {
+            App.preferencesManager.saveLastTimeUpdate(Calendar.getInstance().timeInMillis)
+        }
 
     suspend fun upsertCategory(category: TransactionCategory) {
-        database.categoriesDao().upsert(category)
+        database.categoriesDao().upsert(category).also {
+            App.preferencesManager.saveLastTimeUpdate(Calendar.getInstance().timeInMillis)
+        }
     }
 
     suspend fun upsertTransaction(transaction: MoneyTransaction) {
@@ -26,23 +31,30 @@ class API(private val database: MoneySaverDatabase) {
         if (transaction.isPlanned!! && transaction.isExpenses!!) {
             addReservedMoney(transaction)
         }
+        App.preferencesManager.saveLastTimeUpdate(Calendar.getInstance().timeInMillis)
     }
 
     private suspend fun upsertTransactionRaw(transaction: MoneyTransaction) {
-        database.transactionDao().upsert(transaction)
+        database.transactionDao().upsert(transaction).also {
+            App.preferencesManager.saveLastTimeUpdate(Calendar.getInstance().timeInMillis)
+        }
     }
 
     private suspend fun addReservedMoney(transaction: MoneyTransaction) {
         val bill = getBill(transaction.idBill!!.toLong())
         bill.reservedMoney = bill.reservedMoney?.plus(transaction.money!! * -1)
-        upsertBill(bill)
+        upsertBill(bill).also {
+            App.preferencesManager.saveLastTimeUpdate(Calendar.getInstance().timeInMillis)
+        }
     }
 
     private suspend fun payFromBill(transaction: MoneyTransaction) {
         if (transaction.isPlanned!! && !transaction.isExpenses!!) return
         val bill = getBill(transaction.idBill!!.toLong())
         bill.balance = bill.balance?.plus(transaction.money!!)
-        upsertBill(bill)
+        upsertBill(bill).also {
+            App.preferencesManager.saveLastTimeUpdate(Calendar.getInstance().timeInMillis)
+        }
     }
 
     suspend fun getExpensesCategory() =
@@ -103,7 +115,9 @@ class API(private val database: MoneySaverDatabase) {
 
     suspend fun removeBill(billId: Long) {
         database.billDao().delete(billId)
-        database.transactionDao().deleteBillTransactions(billId)
+        database.transactionDao().deleteBillTransactions(billId).also {
+            App.preferencesManager.saveLastTimeUpdate(Calendar.getInstance().timeInMillis)
+        }
     }
 
     suspend fun getPlannedTransactions(): List<TransactionAndCategory> =
@@ -111,7 +125,9 @@ class API(private val database: MoneySaverDatabase) {
 
     suspend fun removeTransaction(transaction: MoneyTransaction) {
         database.transactionDao().delete(transaction.id!!)
-        cancelTransaction(transaction)
+        cancelTransaction(transaction).also {
+            App.preferencesManager.saveLastTimeUpdate(Calendar.getInstance().timeInMillis)
+        }
     }
 
     private suspend fun cancelTransaction(transaction: MoneyTransaction) {
@@ -119,6 +135,7 @@ class API(private val database: MoneySaverDatabase) {
         if (transaction.isPlanned!!) {
             decreaseReserved(transaction)
         }
+        App.preferencesManager.saveLastTimeUpdate(Calendar.getInstance().timeInMillis)
     }
 
     private suspend fun decreaseReserved(transaction: MoneyTransaction) {
@@ -127,13 +144,16 @@ class API(private val database: MoneySaverDatabase) {
             bill.reservedMoney = bill.reservedMoney?.plus(transaction.money!!)
         }
         upsertBill(bill)
+        App.preferencesManager.saveLastTimeUpdate(Calendar.getInstance().timeInMillis)
     }
 
     private suspend fun putBackToBill(transaction: MoneyTransaction) {
         if (transaction.isPlanned!! && !transaction.isExpenses!!) return
         val bill = getBill(transaction.idBill!!.toLong())
         bill.balance = bill.balance?.minus(transaction.money!!)
-        upsertBill(bill)
+        upsertBill(bill).also {
+            App.preferencesManager.saveLastTimeUpdate(Calendar.getInstance().timeInMillis)
+        }
     }
 
     suspend fun getAllIncomesTransactions(
@@ -155,18 +175,24 @@ class API(private val database: MoneySaverDatabase) {
             addToBill(transaction)
         }
         database.transactionDao().delete(transaction.id!!)
-        changeTransactionPlannedType(transaction)
+        changeTransactionPlannedType(transaction).also {
+            App.preferencesManager.saveLastTimeUpdate(Calendar.getInstance().timeInMillis)
+        }
     }
 
     private suspend fun addToBill(transaction: MoneyTransaction) {
         val bill = getBill(transaction.idBill!!.toLong())
         bill.balance = bill.balance?.plus(kotlin.math.abs(transaction.money!!))
-        upsertBill(bill)
+        upsertBill(bill).also {
+            App.preferencesManager.saveLastTimeUpdate(Calendar.getInstance().timeInMillis)
+        }
     }
 
     private suspend fun changeTransactionPlannedType(transaction: MoneyTransaction) {
         transaction.isPlanned = false
-        upsertTransactionRaw(transaction)
+        upsertTransactionRaw(transaction).also {
+            App.preferencesManager.saveLastTimeUpdate(Calendar.getInstance().timeInMillis)
+        }
     }
 
     private suspend fun getTransaction(transactionId: Long): MoneyTransaction =
@@ -175,6 +201,69 @@ class API(private val database: MoneySaverDatabase) {
     private suspend fun decreaseReservedMoney(transaction: MoneyTransaction) {
         val bill = getBill(transaction.idBill!!.toLong())
         bill.reservedMoney = bill.reservedMoney?.minus(kotlin.math.abs(transaction.money!!))
-        upsertBill(bill)
+        upsertBill(bill).also {
+            App.preferencesManager.saveLastTimeUpdate(Calendar.getInstance().timeInMillis)
+        }
+    }
+
+    suspend fun getAllCategories() =
+        database.categoriesDao().getAllCategories()
+
+    suspend fun getAllTransactions() =
+        database.transactionDao().getAllTransactionsNoCategory()
+
+    suspend fun getAllBills() =
+        database.billDao().getAllBills()
+
+    suspend fun getCustomCategories() =
+        database.categoriesDao().getCustomCategories()
+
+    suspend fun formUserSavefile(): UserSavefile {
+        val username = App.preferencesManager.getUsername()!!
+        val categories = getCustomCategories()
+        val transactions = getAllTransactions()
+        val bills = getAllBills()
+
+        return UserSavefile(
+            username,
+            bills,
+            categories,
+            transactions
+        ).also {
+            App.preferencesManager.saveLastTimeUpdate(Calendar.getInstance().timeInMillis)
+        }
+    }
+
+    suspend fun reloadUserData(loadUserData: UserSavefile) {
+        App.preferencesManager.saveUsername(loadUserData.name)
+        clearDatabase()
+        loadUserData.bills.forEach {
+            upsertBill(it)
+        }
+        loadUserData.transactions.forEach {
+            upsertTransactionRaw(it)
+        }
+        loadUserData.categories.forEach {
+            upsertCategory(it)
+        }
+        App.preferencesManager.saveLastTimeUpdate(Calendar.getInstance().timeInMillis)
+    }
+
+    private suspend fun clearDatabase() {
+        clearCustomCategories()
+        clearTransactions()
+        clearBills()
+    }
+
+    private suspend fun clearCustomCategories() {
+        database.categoriesDao().clearCustomCategories()
+    }
+
+    private suspend fun clearTransactions() {
+        database.transactionDao().clearTransactions()
+    }
+
+    private suspend fun clearBills() {
+        database.billDao().clearBills()
     }
 }

@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.borsch_team.moneysaver.App
 import com.borsch_team.moneysaver.Constants
 import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.data.PreferencesManager
@@ -46,7 +47,7 @@ class TransactionDetailFragment(
         binding.tvTransCategory.text = data.category.name
         if(data.transaction.isExpenses!!){
             binding.tvTransMoney.text = "- ${abs(data.transaction.money!!)} ₽"
-            if (PreferencesManager.getTheme(binding.root.context) == PreferencesManager.THEME_LIGHT) {
+            if (App.preferencesManager.getTheme() == PreferencesManager.THEME_LIGHT) {
                 binding.tvTransMoney.setTextColor(Color.BLACK)
             } else {
                 binding.tvTransMoney.setTextColor(Color.WHITE)
