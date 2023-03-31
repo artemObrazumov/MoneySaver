@@ -32,6 +32,8 @@
     <attr name="dot_unselected" format="reference|color"/>
     <attr name="separator" format="reference|color"/>
     <attr name="checkbox" format="reference|color"/>
+    <attr name="toolbarColor" format="reference|color"/>
+    <attr name="menuItem" format="reference|color"/>
     <color name="whiteDark">#2D2C39</color>
     <color name="bgDark">#21202C</color>
     <color name="brandDark">#393847</color>

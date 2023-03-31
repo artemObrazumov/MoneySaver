@@ -1,5 +1,6 @@
 package com.borsch_team.moneysaver.ui.profile
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -33,6 +34,7 @@ class ProfileFragment : Fragment() {
     private lateinit var selectedColor: ColorStateList
     private lateinit var unselectedColor: ColorStateList
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,6 +48,15 @@ class ProfileFragment : Fragment() {
             } else {
                 Firebase.auth.signOut()
             }
+        }
+        binding.currentTheme.text = "Тема: " + when(App.preferencesManager.getTheme()) {
+            PreferencesManager.THEME_LIGHT -> {"светлая"}
+            PreferencesManager.THEME_DARK -> {"темная"}
+            PreferencesManager.THEME_OLED -> {"OLED"}
+            else -> {""}
+        }
+        binding.changeName.setOnClickListener {
+            // TODO: Изменение ника
         }
         return binding.root
     }
@@ -63,17 +74,19 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun updateProfileState() {
         if (FirebaseAuth.getInstance().currentUser == null) {
             binding.accountLastSync.visibility = View.GONE
             binding.accountControl.text = "Войти в аккаунт"
         } else {
+            binding.accountStatus.text = "Вход в аккаунт выполнен"
             binding.accountLastSync.visibility = View.VISIBLE
             binding.accountControl.text = "Выйти из аккаунта"
             if (App.preferencesManager.getLastTimeUpdate() == -1L) {
                 binding.accountLastSync.text = "Синхронизация не выполнена"
             } else {
-                binding.accountLastSync.text = "Последняя синхронизация: " +
+                binding.accountLastSync.text = "Последняя синхронизация:\n" +
                 SimpleDateFormat(Constants.TIME_FORMAT_PATTERN_EXTENDED, Locale("ru"))
                     .format(App.preferencesManager.getLastTimeUpdate())
             }

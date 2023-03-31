@@ -40,6 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/purple_500"
+        android:backgroundTint="?attr/toolbarColor"
         app:fabCradleMargin="10dp"
         app:fabCradleRoundedCornerRadius="10dp"
         app:contentInsetEnd="0dp"
@@ -49,8 +50,9 @@
             android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:itemIconTint="?attr/black"
             android:background="@android:color/transparent"
+            app:itemTextColor="@drawable/menu_item_color"
+            app:itemIconTint="@drawable/menu_item_color"
             app:elevation="0dp"
             app:menu="@menu/bottom_nav_menu" />
 
