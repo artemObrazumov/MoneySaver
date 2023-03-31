@@ -176,6 +176,35 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/changeName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            android:layout_marginTop="8dp"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="4dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/baseline_mode_edit_24"
+                app:tint="?attr/black" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:textColor="?attr/black"
+                android:gravity="center_vertical"
+                android:text="Изменить имя профиля"/>
+
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.imageview.ShapeableImageView

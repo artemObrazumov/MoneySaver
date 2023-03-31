@@ -13,6 +13,7 @@ import com.borsch_team.moneysaver.ui.dialog.WarningDialog
 import com.borsch_team.moneysaver.ui.startupActivity.SyncronizationViewModel
 import com.borsch_team.moneysaver.ui.transaction_editor.TransactionEditorActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.util.Calendar
 
 
 class MainActivity : AppCompatActivity() {
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         if (intent.getBooleanExtra("afterLogin", false)) {
             CompletedDialog("Вход в аккаунт выполнен. Для успешной синхронизации с сервером перезагрузите приложение") {}
                 .show(supportFragmentManager, "afterLogin")
+            App.preferencesManager.saveLastTimeUpdate(-1L)
         }
     }
 
