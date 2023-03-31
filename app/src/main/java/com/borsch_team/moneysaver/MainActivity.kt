@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         if (intent.getBooleanExtra("afterLogin", false)) {
             CompletedDialog("Вход в аккаунт выполнен. Для успешной синхронизации с сервером перезагрузите приложение") {}
                 .show(supportFragmentManager, "afterLogin")
-            App.preferencesManager.saveLastTimeUpdate(Calendar.getInstance().timeInMillis)
+            App.preferencesManager.saveLastTimeUpdate(-1L)
         }
     }
 }
