@@ -14,11 +14,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.viewpager2.widget.ViewPager2
 import com.borsch_team.moneysaver.R
+import com.borsch_team.moneysaver.Utils
 import com.borsch_team.moneysaver.data.models.TimeRange
 import com.borsch_team.moneysaver.databinding.FragmentAnalysisBinding
 import com.borsch_team.moneysaver.ui.adapter.AnalysisPagerAdapter
 import com.borsch_team.moneysaver.ui.adapter.TransactionPagerAdapter
 import com.borsch_team.moneysaver.ui.analysis.analysis_date_peacker.AnalysisDatePeackerFragment
+import com.bumptech.glide.util.Util
 import com.faskn.lib.PieChart
 import com.faskn.lib.Slice
 import java.text.SimpleDateFormat
@@ -59,11 +61,15 @@ class AnalysisFragment : Fragment() {
                 initializePager(startTimestamp, endTimestamp)
             }.show(childFragmentManager, "tag")
         }
-
+        initDate()
         initializeTabs()
         initializePager(startTimestamp, endTimestamp)
 
         return binding.root
+    }
+
+    private fun initDate(){
+        binding.tvDate.text = Utils.getActualStringMonthAndYear()
     }
 
     private fun initializeTabs() {

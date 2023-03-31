@@ -3,6 +3,7 @@ package com.borsch_team.moneysaver.ui.transactions
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -86,7 +87,13 @@ class TransactionsFragment : Fragment() {
                         set(Calendar.DAY_OF_MONTH, 2)
                         updateUI(month, year)
                     })
-                    onBillChanged(adapter.getBill(binding.billsPager.currentItem))
+                    try {
+                        onBillChanged(adapter.getBill(binding.billsPager.currentItem))
+                    }catch (e: Exception){
+                        // Если нету счетов
+                        Log.d("onBillChangedNull", e.toString())
+                    }
+
                 }
                 show(this@TransactionsFragment.parentFragmentManager, "MonthYearPickerDialog")
             }

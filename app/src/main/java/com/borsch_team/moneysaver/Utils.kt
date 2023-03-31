@@ -37,5 +37,13 @@ class Utils {
         fun getStringDate(date: Long): String{
             return SimpleDateFormat(Constants.TIME_FORMAT_PATTERN, Locale("ru")).format(date)
         }
+
+        fun getActualStringMonthAndYear(): String{
+            val c = Calendar.getInstance()
+            val displayedValues = arrayOf("Январь","Февраль","Март","Апрель","Май","Июнь","Июль",
+                "Август","Сентябрь","Октябрь","Ноябрь","Декабрь")
+
+            return displayedValues[c.get(Calendar.MONTH)] + ", " + c.get(Calendar.YEAR).toString()
+        }
     }
 }

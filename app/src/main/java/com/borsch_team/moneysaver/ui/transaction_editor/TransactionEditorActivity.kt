@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ExperimentalGetImage
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.borsch_team.moneysaver.App
 import com.borsch_team.moneysaver.Constants
 import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.data.models.MoneyTransaction
@@ -162,20 +163,33 @@ import java.util.*
         if (selectedCategory == null) {
             Snackbar
                 .make(binding.root, "Выберите категорию", Snackbar.LENGTH_LONG).show()
+        } else if(binding.etNameTrans.text.toString() == ""){
+            Snackbar
+                .make(binding.root, "Введите транзакцию", Snackbar.LENGTH_LONG).show()
+        } else if(!binding.etMoney.text.toString().contains("[0-9]".toRegex())) {
+            Snackbar
+                .make(binding.root, "Введите корректную стоимость", Snackbar.LENGTH_LONG).show()
         } else {
-            viewModel.trySendTransaction(
-                MoneyTransaction(
-                    null,
-                    selectedCategory!!.isExpenses!!,
-                    binding.etNameTrans.text.toString(),
-                    "",
-                    getTransactionDate(),
-                    selectedCategory!!.id!!.toInt(),
-                    selectedBillId!!.toInt(),
-                    binding.etMoney.text.toString().toFloat() * moneyKoeff(),
-                    binding.isPlanned.isChecked
-                )
-            )
+            viewModel.bills.observe(this){
+                if(it.isEmpty()){
+                    Snackbar
+                        .make(binding.root, "Отсутствует счёт", Snackbar.LENGTH_LONG).show()
+                }else{
+                    viewModel.trySendTransaction(
+                        MoneyTransaction(
+                            null,
+                            selectedCategory!!.isExpenses!!,
+                            binding.etNameTrans.text.toString(),
+                            "",
+                            getTransactionDate(),
+                            selectedCategory!!.id!!.toInt(),
+                            selectedBillId!!.toInt(),
+                            binding.etMoney.text.toString().toFloat() * moneyKoeff(),
+                            binding.isPlanned.isChecked
+                        )
+                    )
+                }
+            }
         }
     }
 

@@ -1,20 +1,23 @@
 package com.borsch_team.moneysaver.ui.profile
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
-import android.os.SharedMemory
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.borsch_team.moneysaver.App
 import com.borsch_team.moneysaver.Constants
 import com.borsch_team.moneysaver.MainActivity
-import com.borsch_team.moneysaver.R
 import com.borsch_team.moneysaver.data.PreferencesManager
 import com.borsch_team.moneysaver.databinding.FragmentProfileBinding
 import com.borsch_team.moneysaver.ui.auth.sign_in.AuthSignInActivity
@@ -27,6 +30,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class ProfileFragment : Fragment() {
 
@@ -65,7 +69,9 @@ class ProfileFragment : Fragment() {
             else -> {""}
         }
         binding.changeName.setOnClickListener {
-            // TODO: Изменение ника
+            ChangeNameUserFragment(App.preferencesManager.getUsername()!!) {
+                binding.name.text = it
+            }.show(childFragmentManager, "tag")
         }
 
 
