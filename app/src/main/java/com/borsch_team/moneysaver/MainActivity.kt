@@ -43,8 +43,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        /*if(PreferencesManager.getUsername(applicationContext) == null){
+        if(App.preferencesManager.getUsername() == ""){
             startActivity(Intent(this, HelloActivity::class.java))
-        }*/
+        }
     }
 }

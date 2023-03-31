@@ -11,5 +11,8 @@ fun AppCompatActivity.setupTheme() {
         PreferencesManager.THEME_DARK -> {
             this.setTheme(R.style.Theme_MoneySaver_Dark)
         }
+        PreferencesManager.THEME_OLED -> {
+            this.setTheme(R.style.Theme_MoneySaver_OLED)
+        }
     }
 }

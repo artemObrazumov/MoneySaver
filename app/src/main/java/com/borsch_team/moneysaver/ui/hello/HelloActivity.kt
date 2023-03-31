@@ -23,7 +23,7 @@ class HelloActivity : AppCompatActivity() {
         binding.btnSignIn.setOnClickListener {
             val userName = binding.inputUserName.text.toString()
             if(userName != ""){
-                PreferencesManager.saveUsername(userName, applicationContext)
+                App.preferencesManager.saveUsername(userName)
                 startActivity(Intent(this, MainActivity::class.java))
             }else{
                 Toast.makeText(applicationContext, "Заполните поле!", Toast.LENGTH_SHORT).show()

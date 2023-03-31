@@ -45,7 +45,7 @@ class ProfileFragment : Fragment() {
         binding.name.text = FirebaseAuth.getInstance().currentUser?.email.toString()
 
         //binding.name.text = FirebaseAuth.getInstance().currentUser?.email.toString()
-        binding.name.text = PreferencesManager.getUsername(requireContext()).toString()
+        binding.name.text = App.preferencesManager.getUsername()
 
         if (FirebaseAuth.getInstance().currentUser == null) {
             binding.accountLastSync.visibility = View.GONE
@@ -110,7 +110,7 @@ class ProfileFragment : Fragment() {
 
         when (App.preferencesManager.getTheme()) {
             PreferencesManager.THEME_DARK -> {
-                binding.tabSelector.animate().x(binding.themeDark.x).duration = 100L
+                binding.tabSelector.animate().x(binding.themeDark.x).duration = 1L
                 binding.themeLight.setTextColor(unselectedColor)
                 binding.themeDark.setTextColor(selectedColor)
             }
